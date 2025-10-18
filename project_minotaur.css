@@ -1,0 +1,92 @@
+body {
+   /* Background from CSS3 Patterns Gallery by Anna Kassner */
+  --s: 50px; /* control the size*/
+  --c1: #8a8a8a;
+  --c2: #8a8a8a;
+  --c3: #747474;
+  
+  --p:at 45% 40%,#0000 75%,;
+  --g1:conic-gradient(var(--p) var(--c1) 0);
+  --g2:conic-gradient(var(--p) var(--c2) 0);
+  background:
+    var(--g1),var(--g2) calc(2*var(--s)) 0,
+    var(--g2) calc(3*var(--s)) var(--s),
+    var(--g1) var(--s) var(--s) var(--c3);
+  background-size: calc(4*var(--s)) calc(2*var(--s));
+
+}
+
+#arena {
+   margin: 0 auto;
+   margin-top: 50px;
+   width: 800px;
+   height: 400px;
+}
+
+#game-canvas {
+   border: 2px solid rgb(255, 0, 0); 
+}
+
+#instructions {
+   margin-left: 10px;
+   padding-left: 5px;
+   padding-top: 10px;
+   height: 2em;
+
+   color: #ff0;
+   font-size: 0.95em;
+
+   opacity: 1;
+}
+/* Dialogue box */
+#textBox {
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0.1s ease-in-out;
+
+   position: fixed;
+   color: rgb(255, 255, 255);
+   font-size: 20px;
+   word-wrap: break-word;
+   background-color: rgba(0, 0, 0, 0.6);
+
+   top: 395px;
+   border: solid rgb(75, 22, 22);
+   border-width: 3px;
+   border-radius: 10px;
+
+   padding: 10px;
+   width: 676px;
+   height: 130px;
+}
+
+#textBox.fadeIn {
+   opacity: 1;
+   visibility: visible;
+}
+
+ .keys {
+   color: rgb(255, 255, 255);
+   text-shadow: 1px 1px 1px rgba(78, 78, 78, 0.5);
+   background: rgba(0,0,0,0.5);
+   border: thin solid rgba(0,0,0,0.20);
+   border-radius: 5px;
+   margin-left: 10px;
+   padding-right: 5px;
+   padding-left: 5px;
+   padding-bottom: 5px;
+
+   display: inline;
+}
+
+.explanation {
+   color: #ff0;
+   text-shadow: 1px 1px 1px rgba(0,0,200,0.5);
+   display: inline;
+   margin-top: 5px;
+   padding-right: 5px;
+   padding-left: 5px;
+   padding-bottom: 2px;
+} 
+
+
