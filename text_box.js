@@ -11,7 +11,7 @@ const Choices = document.getElementById('answers');
 
 const riddleAnswers = ["False", "Fals", "True", "Falsetto"];
 
-//interact function; change this so that it just passes inputs to dialogue box later (check notebook)
+//interact function
 
 function interact(){
     if(talkActive === false){
@@ -30,7 +30,7 @@ function interact(){
 }
 function riddleTest(){ 
     var playerChoice;
-    console.log('textStage = ' + textStage);
+    //console.log('textStage = ' + textStage);
     if(textStage === 1){
         document.getElementById('dialogueText').innerHTML = "Riddle me this:";
     }
