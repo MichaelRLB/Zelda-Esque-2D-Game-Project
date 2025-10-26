@@ -28,8 +28,15 @@ function initializeImages(){
     }
 }
 
+//
+// "player." = the player.js script
+//
+
 function startGame() {
-   draw();
+	draw();
+	player.initializePlayerImages();
+	player.createSprites();
+	window.requestAnimationFrame(gameLoop);
 }
 
 function draw() {
@@ -41,3 +48,9 @@ function drawPlayer() {
     context.drawImage(playerImage, 300, 200)
 }
 
+function gameLoop(now) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    player.draw(now);
+	draw();
+    window.requestAnimationFrame(gameLoop);
+};
