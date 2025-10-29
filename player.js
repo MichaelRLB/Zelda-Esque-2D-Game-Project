@@ -6,7 +6,7 @@ var Player = function () {
     this.fps = 60,
 	
 	this.animationRate = 10,
-	this.playerMoveSpeed = 1,
+	this.playerMoveSpeed = 1.2,
 	this.spritesheet = new Image(),
 	this.playerCellWidth = 40,
 	this.playerCellHeight = 49,

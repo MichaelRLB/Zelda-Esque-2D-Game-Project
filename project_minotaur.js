@@ -9,7 +9,9 @@ var canvas = document.getElementById('game-canvas'),
 
 // Images
 
-    //background = new Image(),
+    background = new Image(),
+
+    //how to get rid of this without interfering with Joshua's player code?
     playerImage = new Image(),
 
     // Level code
@@ -19,11 +21,11 @@ var canvas = document.getElementById('game-canvas'),
 initializeImages();
 
 function initializeImages(){
-    //background.src
+    background.src ='Map0-TestRoom.png'
     playerImage.src = 'game_project_sprites/player_test.png';
     //minotaurImage.src
 
-    playerImage.onload = function (e) { //change this to background later.
+    background.onload = function (e) { //change this to background later.
         startGame();
     }
 }
@@ -40,12 +42,16 @@ function startGame() {
 }
 
 function draw() {
-   //drawBackground();
-   drawPlayer();
+   drawBackground();
+   //drawPlayer();
 }
 
-function drawPlayer() {
+/* function drawPlayer() {
     context.drawImage(playerImage, 300, 200)
+}*/
+
+function drawBackground() {
+    context.drawImage(background, 300, 200);
 }
 
 function gameLoop(now) {
