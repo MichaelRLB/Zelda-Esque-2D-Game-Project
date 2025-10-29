@@ -101,8 +101,8 @@ Player.prototype = {
     },
 	
 	createPlayerSprite: function () {
-        var playerLeft = 50,
-            playerHeight = 46,
+        var playerLeft = 300,
+            playerHeight = 300,
             initialAnimationRate = 0;
 
         this.player = new Sprite('player', new SpriteSheetArtist(this.spritesheet, this.playerCellsRight), [this.animationBehavior, this.movementBehavior]);

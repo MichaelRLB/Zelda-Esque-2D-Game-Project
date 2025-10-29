@@ -43,7 +43,7 @@ function startGame() {
 
 function draw() {
    drawBackground();
-   //drawPlayer();
+   //player.draw(now);
 }
 
 /* function drawPlayer() {
@@ -51,12 +51,12 @@ function draw() {
 }*/
 
 function drawBackground() {
-    context.drawImage(background, 300, 200);
+    context.drawImage(background, 100, -50);
 }
 
 function gameLoop(now) {
     context.clearRect(0, 0, canvas.width, canvas.height);
+    draw();
     player.draw(now);
-	draw();
     window.requestAnimationFrame(gameLoop);
 };
