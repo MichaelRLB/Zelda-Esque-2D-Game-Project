@@ -130,7 +130,7 @@ Player.prototype = {
             playerHeight = 300,
             initialAnimationRate = 0;
 
-        this.player = new Sprite('player', new SpriteSheetArtist(this.spritesheet, this.playerCellsRight), [this.animationBehavior, this.movementBehavior]);
+        this.player = new Sprite('player', new SpriteSheetArtist(this.spritesheet, this.playerCellsUp), [this.animationBehavior, this.movementBehavior]);
 		
         this.player.animationRate = initialAnimationRate;
         this.player.left = playerLeft;

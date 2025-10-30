@@ -11,10 +11,13 @@ var canvas = document.getElementById('game-canvas'),
 
     background = new Image(),
 
-    //how to get rid of this without interfering with Joshua's player code?
+    
+
     playerImage = new Image(),
 
     // Level code
+
+    //make walls so that Luke's collisons work.
 
 // Launch game.........................................................................
 
@@ -25,7 +28,7 @@ function initializeImages(){
     playerImage.src = 'game_project_sprites/player_test.png';
     //minotaurImage.src
 
-    background.onload = function (e) { //change this to background later.
+    background.onload = function (e) {
         startGame();
     }
 }
@@ -43,7 +46,7 @@ function startGame() {
 
 function draw() {
    drawBackground();
-   //player.draw(now);
+   //drawWalls();
 }
 
 /* function drawPlayer() {
