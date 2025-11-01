@@ -73,6 +73,8 @@ function riddleTest(){
         TextBox.classList.remove('fadeIn');
         talkActive = false;
         textStage = 0;
+
+        window.disableInteraction();
     }
 }
 
@@ -99,6 +101,8 @@ function dialogue(){ //look into making an array for dialogue lines to cut down 
         TextBox.classList.remove('fadeIn');
         talkActive = false;
         textStage = 0;
+
+        window.disableInteraction();
     }
 }
 
@@ -125,7 +129,18 @@ window.addEventListener('keyup', function (e){
 
     //if talkActive is false, opens dialogue box. If true, it advances dialogue, eventually closing the box. It is disabled when riddles are visible.
     if (key === 69 && textStage != 3){ // 'e' key
-        //console.log('input received = interact');
-        window.interact();
+        // Check if interaction is available (must be near minotaur)
+        if (window.getCanInteract && window.getCanInteract()) {
+            console.log('input received = interact');
+            window.interact();
+        } 
+        // If dialogue is already active, advance it further
+        else if (talkActive) {
+            window.interact();
+        }
+        // If not near minotaur and not talking currently
+        else {
+            console.log('Nothing to interact with within range.');
+        }
     }
 })
