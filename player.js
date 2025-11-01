@@ -229,18 +229,19 @@ Player.prototype = {
 // Keybind functions (part 1 - movement)
 window.addEventListener('keydown', function (e){
     var key = e.keyCode;
-
-	if (key === 87 || key === 38) { 	 // 'w' or up arrow
-		player.moveUp();
-	}
-	else if (key === 65 || key === 37) { // 'a' or left arrow
-		player.moveLeft();
-	}
-	else if (key === 83 || key === 40) { // 's' or down arrow
-		player.moveDown();
-	}
-	else if (key === 68 || key === 39) { // 'd' or right arrow
-		player.moveRight();
+	if (textStage <= 0 || textStage >= 5) {
+		if (key === 87 || key === 38) { 	 // 'w' or up arrow
+			player.moveUp();
+		}
+		else if (key === 65 || key === 37) { // 'a' or left arrow
+			player.moveLeft();
+		}
+		else if (key === 83 || key === 40) { // 's' or down arrow
+			player.moveDown();
+		}
+		else if (key === 68 || key === 39) { // 'd' or right arrow
+			player.moveRight();
+		}
 	}
 });
 
