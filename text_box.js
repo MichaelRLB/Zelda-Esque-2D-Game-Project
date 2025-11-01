@@ -9,6 +9,7 @@ var textStage = 0;
 const TextBox = document.getElementById('textBox');
 const Choices = document.getElementById('answers');
 
+//riddle array (will include questions later)
 const riddleAnswers = ["False", "Fals", "True", "Falsetto"];
 
 //interact function
