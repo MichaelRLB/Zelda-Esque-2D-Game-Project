@@ -43,6 +43,8 @@ function startGame() {
 	draw();
 	player.initializePlayerImages();
 	player.createSprites();
+	enemy.initializeEnemyImages();
+	enemy.createSprites();
     minotaur.initializeImage();
 	window.requestAnimationFrame(gameLoop);
 }
@@ -65,6 +67,7 @@ function drawBackground() {
 function checkCollisions(){
     var playerRect = player.player.calculateCollisionRectangle();
     var minotaurRect = minotaur.getCollisionRectangle();
+	var enemyRect = enemy.enemy.calculateCollisionRectangle();
 
     // Check if rectangles overlap (not perfect, sprites still clip one another currently)
     if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top) {
@@ -76,6 +79,11 @@ function checkCollisions(){
             enableInteraction();
         }
     }
+	
+	else if (playerRect.left < enemyRect.right && playerRect.right > enemyRect.left && playerRect.top < enemyRect.bottom && playerRect.bottom > enemyRect.top) {
+        console.log("touching enemy!");
+        handleCollision(playerRect, enemyRect);
+	}
 }
 
 
@@ -148,6 +156,7 @@ function gameLoop(now) {
     draw();
     player.draw(now);
     minotaur.draw(context);
+	enemy.draw(now);
     checkCollisions();
     window.requestAnimationFrame(gameLoop);
 };
