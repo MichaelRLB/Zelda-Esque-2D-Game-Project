@@ -50,7 +50,7 @@ body {
    word-wrap: break-word;
    background-color: rgba(0, 0, 0, 0.6);
 
-   top: 395px;
+   top: 400px;
    border: solid rgb(75, 22, 22);
    border-width: 3px;
    border-radius: 10px;
@@ -67,6 +67,7 @@ body {
 
 /* Key display UI*/
 #key-ui{
+   position: absolute;
    color: yellow;
 }
 
