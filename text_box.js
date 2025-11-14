@@ -7,6 +7,7 @@
 var talkActive = false;
 var textStage = 0;
 let currentRiddle = 0;
+let keysCollected = 0;
 const TextBox = document.getElementById('textBox');
 const Choices = document.getElementById('answers');
 
@@ -30,9 +31,9 @@ const riddleData = [
         answer: "The letter M"
     },
     { //3 (still trying to think of a riddle for this one)
-        question: "Placeholder. Pick 3.",
-        options: ["False", "Falso", "True", "Falsetto"],
-        answer: "True"      
+        question: "I an full of holes, yet I still hold water.",
+        options: ["A story", "A colander", "A sponge", "The Earth"],
+        answer: "A sponge"      
     },
     { //4 (final riddle - make sure the others don't say this one)
         question: "I am perfect, infallible, and guaranteed.",
@@ -91,13 +92,21 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
             //console.log("You chose: " + playerChoice);
             Choices.classList.remove('activate');
             if(playerChoice === correctAnswer && currentRiddle != 5){
+                //if you get a wrong answer and then a right one, the game gives you two keys. This stacks for as many questions you get wrong. Why does this happen?
                 textStage = 4;
-                document.getElementById('dialogueText').innerHTML = "Correct. You may have my key... Is what I would be saying if such a feature was implemented yet.";
+                document.getElementById('dialogueText').innerHTML = "Correct. You may have my key. May the Gods bless your journey.";
+
                 currentRiddle += 1;
+
+                keysCollected += 1;
+                console.log("keys collected = ", + keysCollected);
+                document.getElementById('key-progress').innerHTML = keysCollected;
             }
             if(playerChoice === correctAnswer && currentRiddle === 5){
                 textStage = 4;
                 document.getElementById('dialogueText').innerHTML = "Correct. I have run out of riddles. In the real game, you would win at this point.";
+                keysCollected = 0;
+                console.log("keys collected = ", + keysCollected);
                 currentRiddle = 0;
             }  
             else if(playerChoice != correctAnswer){
@@ -229,7 +238,7 @@ window.addEventListener('keyup', function (e){
         }
         // If not near minotaur and not talking currently
         else {
-            console.log('Nothing to interact with within range.');
+            //console.log('Nothing to interact with within range.');
         }
     }
 })
