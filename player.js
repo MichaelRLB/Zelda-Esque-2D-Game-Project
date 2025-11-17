@@ -14,8 +14,6 @@ var Player = function () {
 	this.playerMoveSpeed = 1.2,
 	this.playerCellWidth = 41,
 	this.playerCellHeight = 49,
-	this.playerAttackCellsWidth = 53,
-	this.playerAttackCellsHeight = 48,
 	
 	// Player movemnt keybind variables
 	this.isMovingUp = false;
@@ -42,9 +40,6 @@ var Player = function () {
 		{left: 530, top: 13, width: this.playerCellWidth, height: this.playerCellHeight},
 	],
 	
-	// "playerCellsLeft" uses "-this.playerCellWidth" because I used the right side of the cell on the spritesheet instead of the left 
-	// This is because the moving left animation has a lot of variation from where its cell's start (casued by the sword swaying)
-	// This caused the animation to look weird and switching the using the more consistent right side of the cell (the sprire's back) fixes the weird animation
 	this.playerCellsLeft = [
 		{left: 17, top: 76, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 81, top: 76, width: this.playerCellWidth, height: this.playerCellHeight},
@@ -144,8 +139,6 @@ var Player = function () {
 };
 
 // Player prototype that initailizes most of the functions for the player 
-// (theoretically this should be in the main file and have all the moving sprites use it but oh well)
-// Will probably fix that later
 Player.prototype = {
 	
 	// Initailizes the player sprite (part 1)
@@ -184,10 +177,6 @@ Player.prototype = {
         for (var i=0; i < this.sprites.length; ++i) {
             sprite = this.sprites[i];
 			sprite.update(now, this.fps, this.context, this.lastAnimationFrameTime);
-			
-            //if (sprite.visible && this.isSpriteInView(sprite)) {
-            //    sprite.update(now, this.fps, this.context, this.lastAnimationFrameTime);
-			//}
 		}
     },
 	
@@ -201,19 +190,13 @@ Player.prototype = {
 			this.context.translate(-sprite.hOffset, 0);
 			sprite.draw(this.context);
 			this.context.translate(sprite.hOffset, 0);
-			
-	/* unsure if the "if" statement is neeeded in our case
-			if (sprite.visible && this.isSpriteInView(sprite)) {
-				this.context.translate(-sprite.hOffset, 0);
-				sprite.draw(this.context);
-				this.context.translate(sprite.hOffset, 0);
-			} */
 		}
     },
 	
 	isAttackFinished: function() {
 		if (this.player.artist.cellIndex >= 4 && player.isAtacking) {
-			this.moveStop();
+			this.player.animationRate = 0;
+			this.player.artist.cellIndex = 0;
 			player.isAtacking = false;
 			if (player.playerDirection == 'Up') { this.player.artist.cells = this.playerCellsUp}
 			else if (player.playerDirection == 'Left') { this.player.artist.cells = this.playerCellsLeft }
@@ -222,9 +205,18 @@ Player.prototype = {
 		}
 	},
 	
+	checkBoundaries: function() {
+		if (this.player.left <= 0) { this.player.left = 0 }
+		if (this.player.left >= 660) { this.player.left = 660 }
+		
+		if (this.player.top <= 0) { this.player.top = 0 }
+		if (this.player.top >= 450) { this.player.top = 450 }
+	},
+	
 	// This function is called by the main file to draw the player sprite "player.draw(now);"
 	draw: function (now) {
 		this.isAttackFinished();
+		this.checkBoundaries();
 		this.updateSprites(now);
         this.drawSprites();
 	},
@@ -234,7 +226,6 @@ Player.prototype = {
         this.player.velocityX = 0;
         this.player.velocityY = 0;
         this.player.animationRate = 0;
-		this.player.artist.cellIndex = 0;
 		player.isMovingUp = false;
 		player.isMovingLeft = false;
 		player.isMovingDown = false;
@@ -243,7 +234,6 @@ Player.prototype = {
 	
 	moveUp: function () {
         this.player.animationRate = this.animationRate;
-		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsUp;
 		this.player.velocityX = 0;
 		this.player.velocityY = -this.playerMoveSpeed;
@@ -253,7 +243,6 @@ Player.prototype = {
    
    	moveLeft: function () {
         this.player.animationRate = this.animationRate;
-		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsLeft;
 		this.player.velocityX = -this.playerMoveSpeed;
 		this.player.velocityY = 0;
@@ -263,7 +252,6 @@ Player.prototype = {
    
    	moveDown: function () {
         this.player.animationRate = this.animationRate;
-		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsDown;
 		this.player.velocityX = 0;
 		this.player.velocityY = this.playerMoveSpeed;
@@ -273,7 +261,6 @@ Player.prototype = {
    
    	moveRight: function () {
         this.player.animationRate = this.animationRate;
-		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsRight;
 		this.player.velocityX = this.playerMoveSpeed;
 		this.player.velocityY = 0;
@@ -297,11 +284,11 @@ Player.prototype = {
    }
 };
 
-// Keybind functions (part 1 - movement)
+// Keybind functions (part 1 - movement / attacking)
 window.addEventListener('keydown', function (e){
     var key = e.keyCode;
 	if ((textStage <= 0 || textStage >= 5) && !player.isAtacking) {
-		if (key === 87 || key === 38) { 	 // 'w' or up arrow
+		if (key === 87 || key === 38) {		 // 'w' or up arrow
 			player.moveStop();
 			player.moveUp();
 		}
