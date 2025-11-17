@@ -151,6 +151,7 @@ function handleCollision(playerRect, minotaurRect) {
     }
 }
 
+// Things at the top of this function draw first and are therefore below things drawn after it
 function gameLoop(now) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     draw();

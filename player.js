@@ -14,12 +14,16 @@ var Player = function () {
 	this.playerMoveSpeed = 1.2,
 	this.playerCellWidth = 41,
 	this.playerCellHeight = 49,
+	this.playerAttackCellsWidth = 53,
+	this.playerAttackCellsHeight = 48,
 	
 	// Player movemnt keybind variables
 	this.isMovingUp = false;
 	this.isMovingLeft = false;
 	this.isMovingDown = false;
 	this.isMovingRight = false;
+	this.isAtacking = false;
+	this.playerDirection = 'Up';
 	
 	// Initailizes the player image / spritesheet
 	this.spritesheet = new Image(),
@@ -75,6 +79,38 @@ var Player = function () {
 		{left: 402, top: 204, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 468, top: 204, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 533, top: 204, width: this.playerCellWidth, height: this.playerCellHeight},
+	],
+	
+	this.playerAttackCellsUp = [
+		{left: 35, top: 296, width: 53, height: 48},
+		{left: 115, top: 296, width: 53, height: 48},
+		{left: 195, top: 296, width: 53, height: 48},
+		{left: 274, top: 296, width: 53, height: 48},
+		{left: 351, top: 296, width: 53, height: 48},
+	],
+	
+	this.playerAttackCellsLeft = [
+		{left: 33, top: 384, width: 66, height: 49},
+		{left: 107, top: 389, width: 66, height: 49},
+		{left: 179, top: 390, width: 66, height: 49},
+		{left: 254, top: 388, width: 66, height: 49},
+		{left: 323, top: 387, width: 66, height: 49},
+	],
+	
+	this.playerAttackCellsDown = [
+		{left: 28, top: 470, width: 49, height: 53},
+		{left: 94, top: 473, width: 49, height: 53},
+		{left: 173, top: 479, width: 49, height: 53},
+		{left: 268, top: 480, width: 49, height: 53},
+		{left: 363, top: 482, width: 49, height: 53},
+	],
+	
+	this.playerAttackCellsRight = [
+		{left: 6, top: 565, width: 66, height: 48},
+		{left: 72, top: 564, width: 66, height: 48},
+		{left: 178, top: 565, width: 66, height: 48},
+		{left: 274, top: 562, width: 66, height: 48},
+		{left: 357, top: 564, width: 66, height: 48},
 	],
 	
 	// Function for animating the player sprite (taken straight from snailbait)
@@ -175,8 +211,20 @@ Player.prototype = {
 		}
     },
 	
+	isAttackFinished: function() {
+		if (this.player.artist.cellIndex >= 4 && player.isAtacking) {
+			this.moveStop();
+			player.isAtacking = false;
+			if (player.playerDirection == 'Up') { this.player.artist.cells = this.playerCellsUp}
+			else if (player.playerDirection == 'Left') { this.player.artist.cells = this.playerCellsLeft }
+			else if (player.playerDirection == 'Down') { this.player.artist.cells = this.playerCellsDown }
+			else if (player.playerDirection == 'Right') { this.player.artist.cells = this.playerCellsRight }
+		}
+	},
+	
 	// This function is called by the main file to draw the player sprite "player.draw(now);"
 	draw: function (now) {
+		this.isAttackFinished();
 		this.updateSprites(now);
         this.drawSprites();
 	},
@@ -186,38 +234,61 @@ Player.prototype = {
         this.player.velocityX = 0;
         this.player.velocityY = 0;
         this.player.animationRate = 0;
+		this.player.artist.cellIndex = 0;
+		player.isMovingUp = false;
+		player.isMovingLeft = false;
+		player.isMovingDown = false;
+		player.isMovingRight = false;
     },
 	
 	moveUp: function () {
         this.player.animationRate = this.animationRate;
+		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsUp;
 		this.player.velocityX = 0;
 		this.player.velocityY = -this.playerMoveSpeed;
 		player.isMovingUp = true;
+		player.playerDirection = 'Up';
    },
    
    	moveLeft: function () {
         this.player.animationRate = this.animationRate;
+		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsLeft;
 		this.player.velocityX = -this.playerMoveSpeed;
 		this.player.velocityY = 0;
 		player.isMovingLeft = true;
+		player.playerDirection = 'Left';
    },
    
    	moveDown: function () {
         this.player.animationRate = this.animationRate;
+		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsDown;
 		this.player.velocityX = 0;
 		this.player.velocityY = this.playerMoveSpeed;
 		player.isMovingDown = true;
+		player.playerDirection = 'Down';
    },
    
    	moveRight: function () {
         this.player.animationRate = this.animationRate;
+		this.player.artist.cellIndex = 0;
         this.player.artist.cells = this.playerCellsRight;
 		this.player.velocityX = this.playerMoveSpeed;
 		this.player.velocityY = 0;
 		player.isMovingRight = true;
+		player.playerDirection = 'Right';
+   },
+   
+    attack: function () {
+		player.isAtacking = true;
+        this.player.animationRate = this.animationRate;
+		this.player.artist.cellIndex = 0;
+		if (player.playerDirection == 'Up') { this.player.artist.cells = this.playerAttackCellsUp }
+		else if (player.playerDirection == 'Left') { this.player.artist.cells = this.playerAttackCellsLeft }
+		else if (player.playerDirection == 'Down') { this.player.artist.cells = this.playerAttackCellsDown }
+		else if (player.playerDirection == 'Right') { this.player.artist.cells = this.playerAttackCellsRight }
    },
    
 	// Gets the spritesheet png for the player to use
@@ -229,18 +300,26 @@ Player.prototype = {
 // Keybind functions (part 1 - movement)
 window.addEventListener('keydown', function (e){
     var key = e.keyCode;
-	if (textStage <= 0 || textStage >= 5) {
+	if ((textStage <= 0 || textStage >= 5) && !player.isAtacking) {
 		if (key === 87 || key === 38) { 	 // 'w' or up arrow
+			player.moveStop();
 			player.moveUp();
 		}
 		else if (key === 65 || key === 37) { // 'a' or left arrow
+			player.moveStop();
 			player.moveLeft();
 		}
 		else if (key === 83 || key === 40) { // 's' or down arrow
+			player.moveStop();
 			player.moveDown();
 		}
 		else if (key === 68 || key === 39) { // 'd' or right arrow
+			player.moveStop();
 			player.moveRight();
+		}
+		else if (key === 32) {
+			player.moveStop();
+			player.attack();
 		}
 	}
 });
@@ -264,7 +343,7 @@ window.addEventListener('keyup', function (e){
 			player.isMovingRight = false;
 		}
 		
-		if (!player.isMovingUp && !player.isMovingLeft && !player.isMovingDown && !player.isMovingRight) {
+		if (!player.isMovingUp && !player.isMovingLeft && !player.isMovingDown && !player.isMovingRight && !player.isAtacking) {
 			player.moveStop();
 		}
 	}
