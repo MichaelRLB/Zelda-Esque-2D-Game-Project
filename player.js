@@ -230,6 +230,7 @@ Player.prototype = {
 		player.isMovingLeft = false;
 		player.isMovingDown = false;
 		player.isMovingRight = false;
+		console.log('Player stopped moving');
     },
 	
 	moveUp: function () {
