@@ -22,6 +22,7 @@ var Player = function () {
 	this.isMovingRight = false;
 	this.isAtacking = false;
 	this.playerDirection = 'Up';
+	this.wallCollision = false;
 	
 	// Initailizes the player image / spritesheet
 	this.spritesheet = new Image(),
@@ -230,7 +231,6 @@ Player.prototype = {
 		player.isMovingLeft = false;
 		player.isMovingDown = false;
 		player.isMovingRight = false;
-		console.log('Player stopped moving');
     },
 	
 	moveUp: function () {
@@ -288,7 +288,7 @@ Player.prototype = {
 // Keybind functions (part 1 - movement / attacking)
 window.addEventListener('keydown', function (e){
     var key = e.keyCode;
-	if ((textStage <= 0 || textStage >= 5) && !player.isAtacking) {
+	if ((textStage <= 0 || textStage >= 5) && !player.isAtacking && !player.wallCollision) {
 		if (key === 87 || key === 38) {		 // 'w' or up arrow
 			player.moveStop();
 			player.moveUp();
@@ -333,6 +333,7 @@ window.addEventListener('keyup', function (e){
 		
 		if (!player.isMovingUp && !player.isMovingLeft && !player.isMovingDown && !player.isMovingRight && !player.isAtacking) {
 			player.moveStop();
+			console.log('Player stopped moving');
 		}
 	}
 });

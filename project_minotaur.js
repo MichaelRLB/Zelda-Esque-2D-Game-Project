@@ -234,8 +234,14 @@ function checkPlayerCollisions() {
         // Stop player movement when collision detected
         // KNOWN ISSUE: This sometimes causing jittering and player slowdown when passing past
         player.moveStop();
-        return true;
+		player.wallCollision = true;
+		player.player.left += 1;
+        //return true;
     }
+	else if (!isColliding)
+	{
+		player.wallCollision = false;
+	}
 
     // Check if rectangles overlap (not perfect, sprites still clip one another currently)
     if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top) {
