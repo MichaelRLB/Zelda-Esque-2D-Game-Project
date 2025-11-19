@@ -212,6 +212,8 @@ function checkTileCollision(x, y) {
     return tileValue !== 0;
 }
 
+//temp
+var enemyAlive = true;
 // Updated collision detection for the minotaur, enemy, and map tiles (not fully functional yet)
 function checkPlayerCollisions() {
     var playerRect = player.player.calculateCollisionRectangle();
@@ -235,12 +237,23 @@ function checkPlayerCollisions() {
         // KNOWN ISSUE: This sometimes causing jittering and player slowdown when passing past
         player.moveStop();
 		player.wallCollision = true;
-		player.player.left += 1;
+		if (player.playerDirection == 'Up') { player.player.top += 1; }
+		else if (player.playerDirection == 'Left') { player.player.left += 1; }
+		else if (player.playerDirection == 'Down') { player.player.top -= 1; }
+		else if (player.playerDirection == 'Right') { player.player.left -= 1; }		
         //return true;
     }
 	else if (!isColliding)
 	{
 		player.wallCollision = false;
+	}
+	
+	if (player.isAtacking) {
+		console.log("test");
+		playerRect.top += 10;
+		playerRect.left += 10;
+		playerRect.bottom += 10;
+		playerRect.right += 10;
 	}
 
     // Check if rectangles overlap (not perfect, sprites still clip one another currently)
@@ -257,7 +270,14 @@ function checkPlayerCollisions() {
     // Same check as above, but for enemy
     if (playerRect.left < enemyRect.right && playerRect.right > enemyRect.left && playerRect.top < enemyRect.bottom && playerRect.bottom > enemyRect.top) {
         console.log("touching enemy!");
-        handleCollision(playerRect, enemyRect);
+		if (player.isAtacking) {
+			// temp destroy enemy
+			console.log("test2");
+			enemyAlive = false;
+		}
+		else if (enemyAlive) { 
+			handleCollision(playerRect, enemyRect);
+		}
     }
     
     // If no collision detected
@@ -359,7 +379,9 @@ function gameLoop(now) {
     draw();
     player.draw(now);
     minotaur.draw(context);
-	enemy.draw(now);
+	if (enemyAlive) {
+		enemy.draw(now);
+	}
     checkPlayerCollisions();
     window.requestAnimationFrame(gameLoop);
 };
