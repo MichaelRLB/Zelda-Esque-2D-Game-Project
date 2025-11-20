@@ -37,8 +37,8 @@ SpriteSheetArtist.prototype = {
 // A sprite's behavior executes: execute(sprite, time, fps)
 
 var Sprite = function (type, artist, behaviors) {
-   var DEFAULT_WIDTH = 10,
-       DEFAULT_HEIGHT = 10,
+   var DEFAULT_WIDTH = 35,
+       DEFAULT_HEIGHT = 35,
        DEFAULT_OPACITY = 1.0;
 
    this.artist    = artist;

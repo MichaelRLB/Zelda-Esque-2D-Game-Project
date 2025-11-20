@@ -8,7 +8,7 @@ var Player = function () {
 	// For keeping the animations at a consistent framerate
 	this.lastAnimationFrameTime = 0,
     this.fps = 60,
-	this.animationRate = 10,
+	this.animationRate = 12,
 	
 	// Initial player variables
 	this.playerMoveSpeed = 1.2,
@@ -207,11 +207,11 @@ Player.prototype = {
 	},
 	
 	checkBoundaries: function() {
-		if (this.player.left <= 0) { this.player.left = 0 }
+		/*if (this.player.left <= 0) { this.player.left = 0 }
 		if (this.player.left >= 660) { this.player.left = 660 }
 		
 		if (this.player.top <= 0) { this.player.top = 0 }
-		if (this.player.top >= 450) { this.player.top = 450 }
+		if (this.player.top >= 450) { this.player.top = 450 }*/
 	},
 	
 	// This function is called by the main file to draw the player sprite "player.draw(now);"

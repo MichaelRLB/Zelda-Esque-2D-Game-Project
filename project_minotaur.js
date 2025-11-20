@@ -197,6 +197,8 @@ function checkTileCollision(x, y) {
     // Convert world coordinates to tile coordinates
     var tileX = Math.floor((x - mapOffsetX) / tileSize);
     var tileY = Math.floor((y - mapOffsetY) / tileSize);
+	//console.log(tileX);
+	//console.log(tileY);
     
     // Check if coordinates are within map bounds, treat out-of-bounds as collision
     if (tileX < 0 || tileX >= mapWidth || tileY < 0 || tileY >= mapHeight) {
@@ -204,12 +206,13 @@ function checkTileCollision(x, y) {
     }
     
     // Get tile value from collision map (tmj file)
-    var tileIndex = tileY * mapWidth + tileX;
+    var tileIndex = tileY * mapHeight + tileX;
     var tileValue = collisionMap[tileIndex];
+	console.log(tileValue)
     
     // Return true if tile is non-zero (collision), false if zero (no collision)
     // This assumes 0 = empty space, non-zero = solid tile, as it is on the 2nd layer of the tmj file
-    return tileValue !== 0;
+    return tileValue != 0;
 }
 
 //temp
@@ -249,16 +252,14 @@ function checkPlayerCollisions() {
 	}
 	
 	if (player.isAtacking) {
-		console.log(playerRect.top);
-		playerRect.top -= 40;
-		playerRect.left -= 40;
-		playerRect.bottom += 40;
-		playerRect.right += 40;
-		console.log(playerRect.top);
+		playerRect.top -= 30;
+		playerRect.left -= 30;
+		playerRect.bottom += 30;
+		playerRect.right += 30;
 	}
 
     // Check if rectangles overlap (not perfect, sprites still clip one another currently)
-    if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top) {
+    if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top && !player.isAtacking) {
         console.log("touching minotaur!");
         handleCollision(playerRect, minotaurRect);
 
@@ -374,15 +375,23 @@ function handleCollision(playerRect, minotaurRect) {
     }
 }
 
+// FPS limiting stuff
+var lastFrame = 0;
+const fpsRate = 60;
+// "now" is a default browser thing for getting time (in ms)
+
 // Things at the top of this function draw first and are therefore below things drawn after it
 function gameLoop(now) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    draw();
-    player.draw(now);
-    minotaur.draw(context);
-	if (enemyAlive) {
-		enemy.draw(now);
+	if (now - lastFrame >= 1000 / fpsRate) {
+		lastFrame = now;
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		draw();
+		player.draw(now);
+		minotaur.draw(context);
+		if (enemyAlive) {
+			enemy.draw(now);
+		}
+		checkPlayerCollisions();
 	}
-    checkPlayerCollisions();
-    window.requestAnimationFrame(gameLoop);
+	window.requestAnimationFrame(gameLoop);
 };
