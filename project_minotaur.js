@@ -249,11 +249,12 @@ function checkPlayerCollisions() {
 	}
 	
 	if (player.isAtacking) {
-		console.log("test");
-		playerRect.top += 10;
-		playerRect.left += 10;
-		playerRect.bottom += 10;
-		playerRect.right += 10;
+		console.log(playerRect.top);
+		playerRect.top -= 40;
+		playerRect.left -= 40;
+		playerRect.bottom += 40;
+		playerRect.right += 40;
+		console.log(playerRect.top);
 	}
 
     // Check if rectangles overlap (not perfect, sprites still clip one another currently)
