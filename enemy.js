@@ -8,17 +8,57 @@ var Enemy = function () {
 	// For keeping the animations at a consistent framerate
 	this.lastAnimationFrameTime = 0,
     this.fps = 60,
+	this.initialAnimationRate = 0;
 	this.animationRate = 10,
 	
 	// Initial enemy variables
-	this.enemyCellWidth = 28,
-	this.enemyCellHeight = 45,
+	this.enemyCellWidth = 38,
+	this.enemyCellHeight = 46,
+	
+	// Enemy movement variables
+	this.enemyMoveSpeed = 0.8,
 	
 	// Initailizes the enemy image / spritesheet
 	this.spritesheet = new Image(),
 	this.sprites = [],
 	
-	this.enemyCellsRight = [
+	this.enemyCellsUp = [
+		{left: 621, top: 17, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 685, top: 17, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 749, top: 17, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 813, top: 18, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 877, top: 17, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 941, top: 17, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1005, top: 17, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1070, top: 18, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1133, top: 17, width: this.enemyCellWidth, height: this.enemyCellHeight}
+	],
+	
+	this.enemyCellsLeft = [
+		{left: 627, top: 81, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 687, top: 82, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 753, top: 81, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 819, top: 81, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 882, top: 81, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 944, top: 82, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1011, top: 81, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1075, top: 81, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1139, top: 81, width: this.enemyCellWidth, height: this.enemyCellHeight}
+	],
+	
+	this.enemyCellsDown = [
+		{left: 621, top: 145, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 685, top: 145, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 749, top: 145, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 813, top: 146, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 877, top: 145, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 941, top: 145, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1005, top: 145, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1069, top: 146, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1133, top: 145, width: this.enemyCellWidth, height: this.enemyCellHeight}
+	],
+	
+		this.enemyCellsRight = [
 		{left: 625, top: 209, width: this.enemyCellWidth, height: this.enemyCellHeight},
 		{left: 688, top: 210, width: this.enemyCellWidth, height: this.enemyCellHeight},
 		{left: 754, top: 209, width: this.enemyCellWidth, height: this.enemyCellHeight},
@@ -27,28 +67,67 @@ var Enemy = function () {
 		{left: 940, top: 210, width: this.enemyCellWidth, height: this.enemyCellHeight},
 		{left: 1006, top: 209, width: this.enemyCellWidth, height: this.enemyCellHeight},
 		{left: 1071, top: 209, width: this.enemyCellWidth, height: this.enemyCellHeight},
-		{left: 1136, top: 209, width: this.enemyCellWidth, height: this.enemyCellHeight},
+		{left: 1136, top: 209, width: this.enemyCellWidth, height: this.enemyCellHeight}
+	],
+	
+	// spawn = the spawn position of the enemy sprite in [left, top] format
+	// direction = the intially direction it moves in from its spawn point
+	// distance = how far it moves until it turns back to the spawn point
+	// map = which map the sprite will spawn on (tbd)
+	// TODO: Fix only the last enemy sprite having collision
+	this.enemyData = [
+		{spawn: [200, 400], direction: 'Right', distance: 150},
+		{spawn: [400, 200], direction: 'Left', distance: 150},
+		{spawn: [600, 400], direction: 'Up', distance: 150},
+		{spawn: [800, 200], direction: 'Down', distance: 150}
 	],
 	
 	// Function for animating the enemy sprite (taken straight from snailbait)
-	this.animationBehavior = {
-		lastAdvanceTime: 0,
-      
+	this.animationBehavior = {      
 		execute: function (sprite, now, fps, context, lastAnimationFrameTime) {
 			if (sprite.animationRate === 0) {
 				return;
 			}
-			 
-			if (this.lastAdvanceTime === 0) {
-				this.lastAdvanceTime = now;
+			
+			if (!sprite.lastAdvanceTime) {
+				sprite.lastAdvanceTime = now;
 			}
-			else if (now - this.lastAdvanceTime > 
-					1000 / sprite.animationRate) {
+			else if (now - sprite.lastAdvanceTime > 1000 / sprite.animationRate) {
 				sprite.artist.advance();
-				this.lastAdvanceTime = now;
+				sprite.lastAdvanceTime = now;
 			}
 		}      
-    }
+    },
+	
+	// For some reason all the enemies go the same speed except the last one rendered, it goes twice as fast idk why
+	this.moveBehavior = {
+		execute: function (sprite, now, fps, context, lastAnimationFrameTime) {
+			var sprite = sprite;
+			if (sprite.direction == 'Right' && sprite.left < sprite.spawn[0] + sprite.distance) {
+				sprite.artist.cells = enemy.enemyCellsRight;
+				sprite.left += enemy.enemyMoveSpeed;
+			}
+			else if (sprite.direction == 'Right') { sprite.direction = 'Left' }
+			
+			if (sprite.direction == 'Left' && sprite.left > sprite.spawn[0] - sprite.distance) {
+				sprite.artist.cells = enemy.enemyCellsLeft;
+				sprite.left -= enemy.enemyMoveSpeed;
+			}
+			else if (sprite.direction == 'Left') { sprite.direction = 'Right' }
+			
+			if (sprite.direction == 'Up' && sprite.top > sprite.spawn[1] - sprite.distance) {
+				sprite.artist.cells = enemy.enemyCellsUp;
+				sprite.top -= enemy.enemyMoveSpeed;
+			}
+			else if (sprite.direction == 'Up') { sprite.direction = 'Down' }
+			
+			if (sprite.direction == 'Down' && sprite.top < sprite.spawn[1] + sprite.distance) {
+				sprite.artist.cells = enemy.enemyCellsDown;
+				sprite.top += enemy.enemyMoveSpeed;
+			}
+			else if (sprite.direction == 'Down') { sprite.direction = 'Up' }
+		}
+	}
 };
 
 // Enemy prototype that initailizes most of the functions for the enemy 
@@ -67,18 +146,17 @@ Enemy.prototype = {
 	
 	// Sets all the variables for the enemy sprite
 	createEnemySprite: function () {
-		// enemyLeft & enemyHeight = the spawn position of the enemy sprite
-        var enemyLeft = 200,
-            enemyHeight = 200,
-            initialAnimationRate = 0;
-
-        this.enemy = new Sprite('enemy', new SpriteSheetArtist(this.spritesheet, this.enemyCellsRight), [this.animationBehavior]);
-		
-        this.enemy.animationRate = initialAnimationRate;
-        this.enemy.left = enemyLeft;
-        this.enemy.top = enemyHeight;
-
-        this.sprites.push(this.enemy);
+		for (var i = 0; i < this.enemyData.length; ++i) {
+			this.enemy = new Sprite('enemy', new SpriteSheetArtist(this.spritesheet, this.enemyCellsRight), [this.animationBehavior, this.moveBehavior]);
+			this.enemy.direction = this.enemyData[i].direction;
+			this.enemy.distance = this.enemyData[i].distance;
+			this.enemy.left = this.enemyData[i].spawn[0];
+			this.enemy.top = this.enemyData[i].spawn[1];
+			this.enemy.spawn = this.enemyData[i].spawn;
+			this.enemy.animationRate = this.animationRate;
+			this.sprites.push(this.enemy);
+			console.log(this.enemy);
+		}
     },
 	
 	// Updates the sprite's position / functions (I'm pretty sure) (taken straight from snailbait)
@@ -88,14 +166,12 @@ Enemy.prototype = {
         for (var i=0; i < this.sprites.length; ++i) {
             sprite = this.sprites[i];
 			sprite.update(now, this.fps, this.context, this.lastAnimationFrameTime);
-			this.moveDown();
 		}
     },
 	
 	// Actaully draws the sprite on the screen after its variables have been updated (taken straight from snailbait)
 	drawSprites: function() {
 		var sprite;
-		var enemy = this.enemy;
 
 		for (var i=0; i < this.sprites.length; ++i) {
 			sprite = this.sprites[i];
@@ -110,11 +186,6 @@ Enemy.prototype = {
 		this.updateSprites(now);
         this.drawSprites();
 	},
-
-   	moveDown: function () {
-        this.enemy.animationRate = this.animationRate;
-        this.enemy.artist.cells = this.enemyCellsRight;
-   },
    
 	// Gets the spritesheet png for the enemy to use
     initializeEnemyImages: function () {

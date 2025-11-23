@@ -54,6 +54,14 @@ var Sprite = function (type, artist, behaviors) {
    this.velocityY = 0;
    this.opacity   = DEFAULT_OPACITY;
    this.visible   = true;
+   
+   // For enemy movement
+   this.direction = 'None';
+   this.distance = 0;
+   this.spawn = [0, 0];
+   
+   // For spawning sprites only on certain maps
+   this.map = 'None';
 
    this.showCollisionRectangle = false;
 

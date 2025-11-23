@@ -14,15 +14,16 @@ var Player = function () {
 	this.playerMoveSpeed = 1.2,
 	this.playerCellWidth = 41,
 	this.playerCellHeight = 49,
+	this.playerHealth = 3,
 	
 	// Player movemnt keybind variables
-	this.isMovingUp = false;
-	this.isMovingLeft = false;
-	this.isMovingDown = false;
-	this.isMovingRight = false;
-	this.isAtacking = false;
-	this.playerDirection = 'Up';
-	this.wallCollision = false;
+	this.isMovingUp = false,
+	this.isMovingLeft = false,
+	this.isMovingDown = false,
+	this.isMovingRight = false,
+	this.playerDirection = 'Up',
+	this.wallCollision = false,
+	this.isAtacking = false,
 	
 	// Initailizes the player image / spritesheet
 	this.spritesheet = new Image(),
@@ -38,7 +39,7 @@ var Player = function () {
 		{left: 338, top: 13, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 403, top: 13, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 468, top: 13, width: this.playerCellWidth, height: this.playerCellHeight},
-		{left: 530, top: 13, width: this.playerCellWidth, height: this.playerCellHeight},
+		{left: 530, top: 13, width: this.playerCellWidth, height: this.playerCellHeight}
 	],
 	
 	this.playerCellsLeft = [
@@ -50,7 +51,7 @@ var Player = function () {
 		{left: 338, top: 76, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 403, top: 76, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 468, top: 76, width: this.playerCellWidth, height: this.playerCellHeight},
-		{left: 530, top: 76, width: this.playerCellWidth, height: this.playerCellHeight},
+		{left: 530, top: 76, width: this.playerCellWidth, height: this.playerCellHeight}
 	],
 	
 	this.playerCellsDown = [
@@ -62,7 +63,7 @@ var Player = function () {
 		{left: 338, top: 141, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 402, top: 141, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 465, top: 141, width: this.playerCellWidth, height: this.playerCellHeight},
-		{left: 530, top: 141, width: this.playerCellWidth, height: this.playerCellHeight},
+		{left: 530, top: 141, width: this.playerCellWidth, height: this.playerCellHeight}
 	],
 	
 	this.playerCellsRight = [
@@ -74,7 +75,7 @@ var Player = function () {
 		{left: 337, top: 204, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 402, top: 204, width: this.playerCellWidth, height: this.playerCellHeight},
 		{left: 468, top: 204, width: this.playerCellWidth, height: this.playerCellHeight},
-		{left: 533, top: 204, width: this.playerCellWidth, height: this.playerCellHeight},
+		{left: 533, top: 204, width: this.playerCellWidth, height: this.playerCellHeight}
 	],
 	
 	this.playerAttackCellsUp = [
@@ -82,7 +83,7 @@ var Player = function () {
 		{left: 115, top: 296, width: 53, height: 48},
 		{left: 195, top: 296, width: 53, height: 48},
 		{left: 274, top: 296, width: 53, height: 48},
-		{left: 351, top: 296, width: 53, height: 48},
+		{left: 351, top: 296, width: 53, height: 48}
 	],
 	
 	this.playerAttackCellsLeft = [
@@ -90,7 +91,7 @@ var Player = function () {
 		{left: 107, top: 389, width: 66, height: 49},
 		{left: 179, top: 390, width: 66, height: 49},
 		{left: 254, top: 388, width: 66, height: 49},
-		{left: 323, top: 387, width: 66, height: 49},
+		{left: 323, top: 387, width: 66, height: 49}
 	],
 	
 	this.playerAttackCellsDown = [
@@ -98,7 +99,7 @@ var Player = function () {
 		{left: 94, top: 473, width: 49, height: 53},
 		{left: 173, top: 479, width: 49, height: 53},
 		{left: 268, top: 480, width: 49, height: 53},
-		{left: 363, top: 482, width: 49, height: 53},
+		{left: 363, top: 482, width: 49, height: 53}
 	],
 	
 	this.playerAttackCellsRight = [
@@ -106,7 +107,7 @@ var Player = function () {
 		{left: 72, top: 564, width: 66, height: 48},
 		{left: 178, top: 565, width: 66, height: 48},
 		{left: 274, top: 562, width: 66, height: 48},
-		{left: 357, top: 564, width: 66, height: 48},
+		{left: 357, top: 564, width: 66, height: 48}
 	],
 	
 	// Function for animating the player sprite (taken straight from snailbait)
