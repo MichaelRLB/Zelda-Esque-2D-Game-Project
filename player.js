@@ -157,8 +157,8 @@ Player.prototype = {
 	// Sets all the variables for the player sprite
 	createPlayerSprite: function () {
 		// playerLeft & playerHeight = the spawn position of the player sprite
-        var playerLeft = 300,
-            playerHeight = 300,
+        var playerLeft = 1920 / 2,
+            playerHeight = 1200,
             initialAnimationRate = 0;
 
         this.player = new Sprite('player', new SpriteSheetArtist(this.spritesheet, this.playerCellsUp), [this.animationBehavior, this.movementBehavior]);
