@@ -15,6 +15,7 @@ var Player = function () {
 	this.playerCellWidth = 41,
 	this.playerCellHeight = 49,
 	this.playerHealth = 3,
+	this.lastDamaged = 0;
 	
 	// Player movemnt keybind variables
 	this.isMovingUp = false,
@@ -146,12 +147,6 @@ Player.prototype = {
 	// Initailizes the player sprite (part 1)
     createSprites: function () {
         this.createPlayerSprite();
-        this.addSpritesToSpriteArray();
-    },
-
-	// Initailizes the player sprite (part 2)
-    addSpritesToSpriteArray: function () {
-        this.sprites.push(this.player);
     },
 	
 	// Sets all the variables for the player sprite
@@ -215,10 +210,24 @@ Player.prototype = {
 		if (this.player.top >= 450) { this.player.top = 450 }*/
 	},
 	
+	playerDamaged: function(now) {
+		if (now - player.lastDamaged >= 1000 && player.playerHealth > 0) {
+			player.lastDamaged = now;
+			player.playerHealth--;
+			console.log(player.playerHealth);
+			
+			if (player.playerHealth == 0) {
+				TextBox.classList.add('fadeIn');
+				document.getElementById('dialogueText').innerHTML = "You Died."
+				this.sprites.splice(0, 1);
+			}
+		}
+	},
+	
 	// This function is called by the main file to draw the player sprite "player.draw(now);"
 	draw: function (now) {
 		this.isAttackFinished();
-		this.checkBoundaries();
+		//this.checkBoundaries();
 		this.updateSprites(now);
         this.drawSprites();
 	},

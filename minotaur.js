@@ -3,7 +3,7 @@
 
 var Minotaur = function () {
     this.image = new Image();
-    this.left = 310;
+    this.left = 945;
     this.top = 40;
     this.width = 30;
     this.height = 54;

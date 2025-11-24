@@ -79,13 +79,10 @@ function checkTileCollision(x, y) {
     return tileValue != 0;
 }
 
-//temp
-var enemyAlive = true;
 // Updated collision detection for the minotaur, enemy, and map tiles (not fully functional yet)
-function checkPlayerCollisions() {
+function checkPlayerCollisions(now) {
     var playerRect = player.player.calculateCollisionRectangle();
     var minotaurRect = minotaur.getCollisionRectangle();
-    var enemyRect = enemy.enemy.calculateCollisionRectangle();
     
     // Check four corners of player bounding box
     var corners = [
@@ -134,18 +131,20 @@ function checkPlayerCollisions() {
         }
     }
     
-    // Same check as above, but for enemy
-    if (playerRect.left < enemyRect.right && playerRect.right > enemyRect.left && playerRect.top < enemyRect.bottom && playerRect.bottom > enemyRect.top) {
-        console.log("touching enemy!");
-		if (player.isAtacking) {
-			// temp destroy enemy
-			console.log("test2");
-			enemyAlive = false;
+	for (var i=0; i < enemy.sprites.length; ++i) {
+		var enemyRect = enemy.sprites[i].calculateCollisionRectangle();
+		// Same check as above, but for enemy
+		if (playerRect.left < enemyRect.right && playerRect.right > enemyRect.left && playerRect.top < enemyRect.bottom && playerRect.bottom > enemyRect.top) {
+			console.log("touching enemy!");
+			if (player.isAtacking) {
+				enemy.sprites.splice(i, 1);
+			}
+			else { 
+				handleCollision(playerRect, enemyRect);
+				player.playerDamaged(now);
+			}
 		}
-		else if (enemyAlive) { 
-			handleCollision(playerRect, enemyRect);
-		}
-    }
+	}
     
     // If no collision detected
     return false;
@@ -253,10 +252,8 @@ function gameLoop(now) {
 		draw();
 		player.draw(now);
 		minotaur.draw(context);
-		if (enemyAlive) {
-			enemy.draw(now);
-		}
-		checkPlayerCollisions();
+		enemy.draw(now);
+		checkPlayerCollisions(now);
 	}
 	window.requestAnimationFrame(gameLoop);
 };

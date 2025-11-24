@@ -13,12 +13,14 @@ body {
     var(--g2) calc(3*var(--s)) var(--s),
     var(--g1) var(--s) var(--s) var(--c3);
   background-size: calc(4*var(--s)) calc(2*var(--s));
-
+  float: left;
+  zoom: 67%;
 }
 
 #arena {
    margin: 0 auto;
    margin-top: 50px;
+   margin-left: 65%;
    width: 800px;
    height: 400px;
 }
@@ -32,10 +34,9 @@ body {
    padding-left: 5px;
    padding-top: 10px;
    height: 2em;
-
+   float: center;
    color: #ff0;
    font-size: 0.95em;
-
    opacity: 1;
 }
 /* Dialogue box */
@@ -50,7 +51,8 @@ body {
    word-wrap: break-word;
    background-color: rgba(0, 0, 0, 0.6);
 
-   top: 400px;
+   top: 50%;
+   left: 40%;
    border: solid rgb(75, 22, 22);
    border-width: 3px;
    border-radius: 10px;
@@ -69,6 +71,12 @@ body {
 #key-ui{
    position: absolute;
    color: yellow;
+   padding-left: 10px;
+   padding-top: 5px;
+}
+
+#key-progress{
+   padding-left: 15px;
 }
 
 #answers{

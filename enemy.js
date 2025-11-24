@@ -76,10 +76,10 @@ var Enemy = function () {
 	// map = which map the sprite will spawn on (tbd)
 	// TODO: Fix only the last enemy sprite having collision
 	this.enemyData = [
-		{spawn: [200, 400], direction: 'Right', distance: 150},
-		{spawn: [400, 200], direction: 'Left', distance: 150},
-		{spawn: [600, 400], direction: 'Up', distance: 150},
-		{spawn: [800, 200], direction: 'Down', distance: 150}
+		{spawn: [950, 800], direction: 'Right', distance: 50},
+		{spawn: [1200, 275], direction: 'Left', distance: 150},
+		{spawn: [600, 350], direction: 'Up', distance: 75},
+		{spawn: [800, 275], direction: 'Down', distance: 50}
 	],
 	
 	// Function for animating the enemy sprite (taken straight from snailbait)
