@@ -11,7 +11,7 @@ var Player = function () {
 	this.animationRate = 12,
 	
 	// Initial player variables
-	this.playerMoveSpeed = 10.2,
+	this.playerMoveSpeed = 4,
 	this.playerCellWidth = 41,
 	this.playerCellHeight = 49,
 	this.playerHealth = 3,
@@ -144,13 +144,9 @@ var Player = function () {
 // Player prototype that initailizes most of the functions for the player 
 Player.prototype = {
 	
-	// Initailizes the player sprite (part 1)
-    createSprites: function () {
-        this.createPlayerSprite();
-    },
-	
-	// Sets all the variables for the player sprite
+	// Initailizes the player sprite & sets all the variables for the player sprite
 	createPlayerSprite: function () {
+		if (this.sprites.length > 0) { this.sprites.pop(); }
 		// playerLeft & playerHeight = the spawn position of the player sprite
         var playerLeft = 1920 / 2,
             playerHeight = 1200,
@@ -192,13 +188,13 @@ Player.prototype = {
 	
 	isAttackFinished: function() {
 		if (this.player.artist.cellIndex >= 4 && player.isAtacking) {
-			this.player.animationRate = 0;
 			this.player.artist.cellIndex = 0;
 			player.isAtacking = false;
 			if (player.playerDirection == 'Up') { this.player.artist.cells = this.playerCellsUp}
 			else if (player.playerDirection == 'Left') { this.player.artist.cells = this.playerCellsLeft }
 			else if (player.playerDirection == 'Down') { this.player.artist.cells = this.playerCellsDown }
 			else if (player.playerDirection == 'Right') { this.player.artist.cells = this.playerCellsRight }
+			this.moveStop();
 		}
 	},
 	

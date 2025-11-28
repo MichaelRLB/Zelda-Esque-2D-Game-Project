@@ -23,6 +23,7 @@ var mapHeight = 40;
 var tileSize = 32;
 var mapOffsetX = 0; 
 var mapOffsetY = 0;
+
 // index 0 = map0 (& map0 = Map1-Entrance) | tried to make this a dictionary but it didn't work - Definitely need this to be a dictionary tho
 var mapTransitionPoints = [
 {map: 0, tiles: [28, 29, 30, 31], destination: 1},
@@ -30,8 +31,7 @@ var mapTransitionPoints = [
 ];
 var lastMapChange = 0;
 
-// Launch game.........................................................................
-
+// Launches the game
 initializeImages();
 
 function initializeImages(){
@@ -48,12 +48,14 @@ function initializeImages(){
 
 //
 // "player." = the player.js script
+// "enemy." = the enemy.js script
+// "minotaur." = the minotaur.js script
 //
 
 function startGame() {
 	draw();
 	player.initializePlayerImages();
-	player.createSprites();
+	player.createPlayerSprite();
 	enemy.initializeEnemyImages();
 	enemy.createEnemySprites(currentMap);
     minotaur.initializeImage();
@@ -119,6 +121,7 @@ function changeMap() {
 	background.src = backgroundSources[currentMap];
 	walls.src = wallSources[currentMap];
 	enemy.createEnemySprites(currentMap);
+	player.createPlayerSprite();
 }
 
 // Updated collision detection for the minotaur, enemy, and map tiles (not fully functional yet)
