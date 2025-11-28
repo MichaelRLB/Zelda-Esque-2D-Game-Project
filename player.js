@@ -210,11 +210,10 @@ Player.prototype = {
 		if (now - player.lastDamaged >= 1000 && player.playerHealth > 0) {
 			player.lastDamaged = now;
 			player.playerHealth--;
-			console.log(player.playerHealth);
+			console.log('Health: ' + player.playerHealth);
 			
 			if (player.playerHealth == 0) {
-				TextBox.classList.add('fadeIn');
-				document.getElementById('dialogueText').innerHTML = "You Died."
+				GameOver.classList.add('fadeIn');
 				this.sprites.splice(0, 1);
 			}
 		}

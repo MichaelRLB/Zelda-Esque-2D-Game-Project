@@ -1,7 +1,7 @@
 //Click to track mouse position; comment out when not needed.
-/*window.addEventListener('mousedown', function(event){
+window.addEventListener('mousedown', function(event){
     console.log('Mouse X:', event.clientX, 'Mouse Y:', event.clientY);
-});*/
+});
 
 //textBox object.
 var talkActive = false;
@@ -10,6 +10,7 @@ let currentRiddle = 0;
 let keysCollected = 0;
 const TextBox = document.getElementById('textBox');
 const Choices = document.getElementById('answers');
+const GameOver = document.getElementById('game-over-popup')
 
 //riddle array (will include questions later)
 const riddleAnswers = ["False", "Fals", "True", "Falsetto"];
@@ -35,7 +36,7 @@ const riddleData = [
         options: ["A story", "A colander", "A sponge", "The Earth"],
         answer: "A sponge"      
     },
-    { //4 (final riddle - make sure the others don't say this one)
+    { //4 (final riddle - make sure the minotaur statues don't say this one)
         question: "I am perfect, infallible, and guaranteed.",
         options: ["Nothing", "Me", "Humanity", "The Minotaur"],
         answer: "Nothing"

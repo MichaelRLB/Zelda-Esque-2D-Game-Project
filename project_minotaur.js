@@ -88,7 +88,7 @@ function checkTileCollision(x, y, now) {
     // Get tile value from collision map (tmj file)
     var tileIndex = (tileY * mapWidth) + tileX;
     var tileValue = collisionMap[tileIndex];
-	console.log(tileIndex);
+	console.log("tile index: " + tileIndex);
 	if (checkTransitionPoints(tileIndex, now)) {
 		console.log('changeMap();');
 		changeMap();

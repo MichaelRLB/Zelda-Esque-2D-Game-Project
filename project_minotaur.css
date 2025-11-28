@@ -68,6 +68,18 @@ body {
    visibility: visible;
 }
 
+/* Health display UI*/
+#health-ui{
+   position: relative;
+   color: red;
+   padding-left: 10px;
+   padding-top: 5px;
+}
+
+#health-meter{
+   padding-left: 15px;
+}
+
 /* Key display UI*/
 #key-ui{
    position: absolute;
@@ -78,6 +90,26 @@ body {
 
 #key-progress{
    padding-left: 15px;
+}
+
+/* Game Over, yeah */
+#game-over-popup{
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 2s ease-in-out;
+
+   position: absolute;
+   color: red;
+   text-shadow: 2px 2px 5px black;
+
+   font-size: 100px;
+   top: 467px;
+   left: 1250px;
+}
+
+#game-over-popup.fadeIn {
+   opacity: 1;
+   visibility: visible;
 }
 
 #answers{
