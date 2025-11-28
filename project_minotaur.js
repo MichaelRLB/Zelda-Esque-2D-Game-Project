@@ -1,11 +1,14 @@
 // Map data accessible globally in Map1-Entrance.js
 
 var canvas = document.getElementById('game-canvas'),
-	context = canvas.getContext('2d');
+	context = canvas.getContext('2d'),
+	gameStarted = false;
 
 // Images
 var background = new Image();
+var backgroundSources = ['./maps/Map1-Entrance-Ground.png', './maps/Map2-MainRoom.png', ];
 var walls = new Image();
+var wallSources = ['./maps/Map1-Entrance-Walls.png', './maps/Map2-MainRoom-Walls.png'];
 
 // Interaction variables, bool for activating interaction state, timer for interaction, and time for timer
 var canInteract = false;
@@ -13,24 +16,34 @@ var interactionTimer = null;
 var INTERACTION_WINDOW = 1500; // in milliseconds
 
 // Collision detection system variables
-var collisionMap = mapData.layers[1].data; 
+var currentMap = mapData.layers[0].map;
+var collisionMap = []; 
 var mapWidth = 60;
 var mapHeight = 40;
 var tileSize = 32;
 var mapOffsetX = 0; 
 var mapOffsetY = 0;
+// index 0 = map0 (& map0 = Map1-Entrance) | tried to make this a dictionary but it didn't work - Definitely need this to be a dictionary tho
+var mapTransitionPoints = [
+{map: 0, tiles: [28, 29, 30, 31], destination: 1},
+{map: 1, tiles: [2368, 2369, 2370, 2371], destination: 0}
+];
+var lastMapChange = 0;
 
 // Launch game.........................................................................
 
 initializeImages();
 
 function initializeImages(){
-    background.src = 'Map1-Entrance-Ground.png';
-	walls.src = 'Map1-Entrance-Walls.png';
+    background.src = backgroundSources[0];
+	walls.src = wallSources[0];
 
-    background.onload = function (e) {
-        startGame();
-    }
+	if (!gameStarted) {
+		background.onload = function (e) {
+			gameStarted = true;
+			startGame();
+		}
+	}
 }
 
 //
@@ -42,7 +55,7 @@ function startGame() {
 	player.initializePlayerImages();
 	player.createSprites();
 	enemy.initializeEnemyImages();
-	enemy.createSprites();
+	enemy.createEnemySprites(currentMap);
     minotaur.initializeImage();
 	window.requestAnimationFrame(gameLoop);
 }
@@ -57,7 +70,8 @@ function drawBackground() {
 }
 
 // Function for checking the collision of a point (x, y) with the tile map (doesn't work on left-right sides yet)
-function checkTileCollision(x, y) {
+function checkTileCollision(x, y, now) {
+	collisionMap = mapData.layers[currentMap].data;
     // Convert world coordinates to tile coordinates
     var tileX = Math.floor((x - mapOffsetX) / tileSize);
     var tileY = Math.floor((y - mapOffsetY) / tileSize);
@@ -72,11 +86,39 @@ function checkTileCollision(x, y) {
     // Get tile value from collision map (tmj file)
     var tileIndex = (tileY * mapWidth) + tileX;
     var tileValue = collisionMap[tileIndex];
-	console.log(tileIndex)
+	console.log(tileIndex);
+	if (checkTransitionPoints(tileIndex, now)) {
+		console.log('changeMap();');
+		changeMap();
+		return false;
+	}
     
     // Return true if tile is non-zero (collision), false if zero (no collision)
     // This assumes 0 = empty space, non-zero = solid tile, as it is on the 2nd layer of the tmj file
     return tileValue != 0;
+}
+
+function checkTransitionPoints(tileIndex, now) {
+	for (var i = 0; i < mapTransitionPoints.length; ++i) {
+		if (mapTransitionPoints[i].map == currentMap) {
+			for (var j = 0; j < mapTransitionPoints[i].tiles.length; ++j) {
+				if (tileIndex == mapTransitionPoints[i].tiles[j] && now - lastMapChange >= 5000) {
+				// Can only change maps every 5 seconds
+					lastMapChange = now;
+					currentMap = mapTransitionPoints[i].destination;
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+// Right now it only changes from Map1-Entrance to Map2-MainRoom
+function changeMap() {
+	background.src = backgroundSources[currentMap];
+	walls.src = wallSources[currentMap];
+	enemy.createEnemySprites(currentMap);
 }
 
 // Updated collision detection for the minotaur, enemy, and map tiles (not fully functional yet)
@@ -95,7 +137,7 @@ function checkPlayerCollisions(now) {
     
     // Check if any corner is colliding with a solid tile
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some for more info on how this works
-    var isColliding = corners.some(corner => checkTileCollision(corner.x, corner.y));
+    var isColliding = corners.some(corner => checkTileCollision(corner.x, corner.y, now));
     
     if (isColliding) {
         // Stop player movement when collision detected

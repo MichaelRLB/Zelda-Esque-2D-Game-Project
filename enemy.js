@@ -76,10 +76,10 @@ var Enemy = function () {
 	// map = which map the sprite will spawn on (tbd)
 	// TODO: Fix only the last enemy sprite having collision
 	this.enemyData = [
-		{spawn: [950, 800], direction: 'Right', distance: 50},
-		{spawn: [1200, 275], direction: 'Left', distance: 150},
-		{spawn: [600, 350], direction: 'Up', distance: 75},
-		{spawn: [800, 275], direction: 'Down', distance: 50}
+		{spawn: [950, 800], direction: 'Right', distance: 50, map: 0},
+		{spawn: [1200, 275], direction: 'Left', distance: 150, map: 0},
+		{spawn: [600, 350], direction: 'Up', distance: 75, map: 1},
+		{spawn: [800, 275], direction: 'Down', distance: 50, map: 1}
 	],
 	
 	// Function for animating the enemy sprite (taken straight from snailbait)
@@ -133,31 +133,31 @@ var Enemy = function () {
 // Enemy prototype that initailizes most of the functions for the enemy 
 Enemy.prototype = {
 	
-	// Initailizes the enemy sprite (part 1)
-    createSprites: function () {
-        this.createEnemySprite();
-        this.addSpritesToSpriteArray();
-    },
-
-	// Initailizes the enemy sprite (part 2)
-    addSpritesToSpriteArray: function () {
-        this.sprites.push(this.enemy);
-    },
-	
+	// Initailizes the enemy sprites
 	// Sets all the variables for the enemy sprite
-	createEnemySprite: function () {
+	createEnemySprites: function (currentMap) {
+		if (this.sprites.length > 0) { this.clearEnemySprites(); }
 		for (var i = 0; i < this.enemyData.length; ++i) {
-			this.enemy = new Sprite('enemy', new SpriteSheetArtist(this.spritesheet, this.enemyCellsRight), [this.animationBehavior, this.moveBehavior]);
-			this.enemy.direction = this.enemyData[i].direction;
-			this.enemy.distance = this.enemyData[i].distance;
-			this.enemy.left = this.enemyData[i].spawn[0];
-			this.enemy.top = this.enemyData[i].spawn[1];
-			this.enemy.spawn = this.enemyData[i].spawn;
-			this.enemy.animationRate = this.animationRate;
-			this.sprites.push(this.enemy);
-			console.log(this.enemy);
+			if (this.enemyData[i].map == currentMap) {
+				this.enemy = new Sprite('enemy', new SpriteSheetArtist(this.spritesheet, this.enemyCellsRight), [this.animationBehavior, this.moveBehavior]);
+				this.enemy.direction = this.enemyData[i].direction;
+				this.enemy.distance = this.enemyData[i].distance;
+				this.enemy.left = this.enemyData[i].spawn[0];
+				this.enemy.top = this.enemyData[i].spawn[1];
+				this.enemy.spawn = this.enemyData[i].spawn;
+				this.enemy.map = this.enemyData[i].map;
+				this.enemy.animationRate = this.animationRate;
+				this.sprites.push(this.enemy);
+			}
 		}
     },
+	
+	clearEnemySprites: function () {
+		for (var i = 0; i <= this.sprites.length; ++i) {
+			this.sprites.pop();
+			console.log(this.sprites);
+		}
+	},
 	
 	// Updates the sprite's position / functions (I'm pretty sure) (taken straight from snailbait)
 	updateSprites: function (now) {

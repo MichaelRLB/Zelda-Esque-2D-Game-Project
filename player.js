@@ -11,7 +11,7 @@ var Player = function () {
 	this.animationRate = 12,
 	
 	// Initial player variables
-	this.playerMoveSpeed = 4,
+	this.playerMoveSpeed = 10.2,
 	this.playerCellWidth = 41,
 	this.playerCellHeight = 49,
 	this.playerHealth = 3,
@@ -202,13 +202,13 @@ Player.prototype = {
 		}
 	},
 	
-	checkBoundaries: function() {
-		/*if (this.player.left <= 0) { this.player.left = 0 }
+	/*checkBoundaries: function() {
+		if (this.player.left <= 0) { this.player.left = 0 }
 		if (this.player.left >= 660) { this.player.left = 660 }
 		
 		if (this.player.top <= 0) { this.player.top = 0 }
-		if (this.player.top >= 450) { this.player.top = 450 }*/
-	},
+		if (this.player.top >= 450) { this.player.top = 450 }
+	},*/
 	
 	playerDamaged: function(now) {
 		if (now - player.lastDamaged >= 1000 && player.playerHealth > 0) {
@@ -236,7 +236,7 @@ Player.prototype = {
 	moveStop: function () {
         this.player.velocityX = 0;
         this.player.velocityY = 0;
-        this.player.animationRate = 0;
+        if (!player.isAtacking) { this.player.animationRate = 0; }
 		player.isMovingUp = false;
 		player.isMovingLeft = false;
 		player.isMovingDown = false;

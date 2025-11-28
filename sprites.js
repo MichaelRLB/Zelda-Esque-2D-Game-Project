@@ -61,7 +61,7 @@ var Sprite = function (type, artist, behaviors) {
    this.spawn = [0, 0];
    
    // For spawning sprites only on certain maps
-   this.map = 'None';
+   this.map = 0;
 
    this.showCollisionRectangle = false;
 
