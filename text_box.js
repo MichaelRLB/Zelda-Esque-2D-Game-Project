@@ -100,6 +100,8 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
                 currentRiddle += 1;
 
                 keysCollected += 1;
+				minotaur.sprites.splice(interactIndex, 1);
+				minotaur.minotaurData.splice(interactIndex, 1);
                 console.log("keys collected = ", + keysCollected);
                 document.getElementById('key-progress').innerHTML = keysCollected;
             }

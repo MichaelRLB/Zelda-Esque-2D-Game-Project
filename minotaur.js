@@ -36,7 +36,7 @@ Minotaur.prototype = {
 	clearMinotaurSprites: function () {
 		for (var i = 0; i <= this.sprites.length; ++i) {
 			this.sprites.pop();
-			console.log(this.sprites);
+			//console.log(this.sprites);
 		}
 	},
     
@@ -47,7 +47,7 @@ Minotaur.prototype = {
 		
 		for (var i=0; i < this.sprites.length; ++i) {
 			sprite = this.sprites[i];
-			console.log(sprite);
+			//console.log(sprite);
 			context.drawImage(this.minotaurImage,  sprite.left, sprite.top);
 		}
     },

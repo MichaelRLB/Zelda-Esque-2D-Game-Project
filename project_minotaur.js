@@ -12,6 +12,7 @@ var wallSources = ['./maps/Map1-Entrance-Walls.png', './maps/Map2-MainRoom-Walls
 
 // Interaction variables, bool for activating interaction state, timer for interaction, and time for timer
 var canInteract = false;
+var interactIndex = 999; // For storing what minotaur is being talked to
 var interactionTimer = null;
 var INTERACTION_WINDOW = 1500; // in milliseconds
 
@@ -179,7 +180,7 @@ function checkPlayerCollisions(now) {
 
 			// Enable interaction window if not already active and not talking
 			if (!canInteract && !talkActive) {
-				enableInteraction();
+				enableInteraction(i);
 			}
 		}
 	}
@@ -204,8 +205,9 @@ function checkPlayerCollisions(now) {
 }
 
 // Enable the interaction window for INTERACTION_WINDOW time
-function enableInteraction() {
+function enableInteraction(index) {
     canInteract = true;
+	interactIndex = index;
     
     // Clear any existing timer
     if (interactionTimer) {
@@ -223,6 +225,7 @@ function enableInteraction() {
 // Disables the interaction window
 function disableInteraction() {
     canInteract = false;
+	interactIndex = 999;
     console.log("Interaction window closed");
     
     // Clear timer
