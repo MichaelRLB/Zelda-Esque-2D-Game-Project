@@ -146,7 +146,7 @@ Player.prototype = {
 	
 	// Initailizes the player sprite & sets all the variables for the player sprite
 	createPlayerSprite: function () {
-		if (this.sprites.length > 0) { this.sprites.pop(); }
+		//if (this.sprites.length > 0) { this.sprites.pop(); }
 		// playerLeft & playerHeight = the spawn position of the player sprite
         var playerLeft = 1920 / 2,
             playerHeight = 1200,

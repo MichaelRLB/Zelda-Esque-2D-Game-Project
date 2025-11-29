@@ -1,36 +1,65 @@
-// This is mainly temp info, can be re-used later for the minotaur potentially but this is pretty hard-coded
-// as it is now and will need adaptation for later.
-
 var Minotaur = function () {
-    this.image = new Image();
-    this.left = 945;
-    this.top = 40;
+    this.minotaurImage = new Image();
+	this.sprites = [];
+	this.canvas = document.getElementById('game-canvas');
+	this.context = this.canvas.getContext('2d');
+
     this.width = 30;
     this.height = 54;
+	
+	this.minotaurData = [
+		{spawn: [945, 40], map: 0, destroyed: 'No'}
+	];
 };
 
 Minotaur.prototype = {
     // Initialize the minotaur image by grabbing reference path to image
-    initializeImage: function () {
-        this.image.src = 'game_project_sprites/minotaur_ph.png';
+    initializeMinotaurImage: function () {
+        this.minotaurImage.src = 'game_project_sprites/minotaur_ph.png';
     },
+	
+	createMinotaurSprites: function (currentMap) {
+		if (this.sprites.length > 0) { this.clearMinotaurSprites(); }
+		
+		for (var i = 0; i < this.minotaurData.length; ++i) {
+			if (this.minotaurData[i].map == currentMap && this.minotaurData[i].destroyed == 'No') {
+				this.minotaur = new Sprite('minotaur');
+				this.minotaur.left = this.minotaurData[i].spawn[0];
+				this.minotaur.top = this.minotaurData[i].spawn[1];
+				this.minotaur.spawn = this.minotaurData[i].spawn;
+				this.minotaur.map = this.minotaurData[i].map;
+				this.sprites.push(this.minotaur);
+			}
+		}
+    },
+	
+	clearMinotaurSprites: function () {
+		for (var i = 0; i <= this.sprites.length; ++i) {
+			this.sprites.pop();
+			console.log(this.sprites);
+		}
+	},
     
     // Draws the minotaur to the screen
     draw: function (context) {
-        context.drawImage(this.image, this.left, this.top);
+        //context.drawImage(this.minotaurImage, this.left, this.top);
+		var sprite;
+		
+		for (var i=0; i < this.sprites.length; ++i) {
+			sprite = this.sprites[i];
+			console.log(sprite);
+			context.drawImage(this.minotaurImage,  sprite.left, sprite.top);
+		}
     },
     
-    // Get collision rectangle (rectangle around and at minotaur, doesn't support movement currently)
-    // KNOWN BUG: Currently the player can walk "into" the minotaur sprite from top and left. Will need an offset
-    // on current hitbox to work.
     getCollisionRectangle: function () {
         return {
-            left: this.left,
-            right: this.left + this.width,
-            top: this.top,
-            bottom: this.top + this.height,
-            centerX: this.left + this.width/2,
-            centerY: this.top + this.height/2
+            left: this.sprites[0].left,
+            right: this.sprites[0].left + this.width,
+            top: this.sprites[0].top,
+            bottom: this.sprites[0].top + this.height,
+            centerX: this.sprites[0].left + this.width/2,
+            centerY: this.sprites[0].top + this.height/2
         };
     }
 };

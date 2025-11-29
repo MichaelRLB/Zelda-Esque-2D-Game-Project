@@ -62,6 +62,9 @@ var Sprite = function (type, artist, behaviors) {
    
    // For spawning sprites only on certain maps
    this.map = 0;
+   
+   // For destroying minotaurs that have already given a key
+   this.destroyed = 'No';
 
    this.showCollisionRectangle = false;
 

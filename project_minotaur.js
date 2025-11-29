@@ -24,11 +24,13 @@ var tileSize = 32;
 var mapOffsetX = 0; 
 var mapOffsetY = 0;
 
-// index 0 = map0 (& map0 = Map1-Entrance) | tried to make this a dictionary but it didn't work - Definitely need this to be a dictionary tho
+// index 0 = map0 (& map0 = Map1-Entrance) | playerSpawn = [x, y] AKA [left, top] | sendToMap = the map data point you transition to (map0 = 0)
 var mapTransitionPoints = [
-{map: 0, tiles: [28, 29, 30, 31], destination: 1},
-{map: 1, tiles: [2368, 2369, 2370, 2371], destination: 0}
+{map: 0, tiles: [28, 29, 30, 31], sendToMap: 1, playerSpawn: [978, 1218]},
+{map: 1, tiles: [2368, 2369, 2370, 2371], sendToMap: 0, playerSpawn: [978, 30]}
 ];
+// Can only change maps every 3 seconds
+var mapTransitionCooldown = 3000;
 var lastMapChange = 0;
 
 // Launches the game
@@ -38,8 +40,9 @@ function initializeImages(){
     background.src = backgroundSources[0];
 	walls.src = wallSources[0];
 
-	if (!gameStarted) {
-		background.onload = function (e) {
+	background.onload = function (e) {
+		if (!gameStarted) {
+			console.log('loading');
 			gameStarted = true;
 			startGame();
 		}
@@ -58,7 +61,8 @@ function startGame() {
 	player.createPlayerSprite();
 	enemy.initializeEnemyImages();
 	enemy.createEnemySprites(currentMap);
-    minotaur.initializeImage();
+    minotaur.initializeMinotaurImage();
+	minotaur.createMinotaurSprites(currentMap);
 	window.requestAnimationFrame(gameLoop);
 }
 
@@ -77,8 +81,7 @@ function checkTileCollision(x, y, now) {
     // Convert world coordinates to tile coordinates
     var tileX = Math.floor((x - mapOffsetX) / tileSize);
     var tileY = Math.floor((y - mapOffsetY) / tileSize);
-	//console.log(tileX);
-	//console.log(tileY);
+	console.log('X:' + x + ' | ' + 'Y:' + y );
     
     // Check if coordinates are within map bounds, treat out-of-bounds as collision
     if (tileX < 0 || tileX >= mapWidth || tileY < 0 || tileY >= mapHeight) {
@@ -104,10 +107,11 @@ function checkTransitionPoints(tileIndex, now) {
 	for (var i = 0; i < mapTransitionPoints.length; ++i) {
 		if (mapTransitionPoints[i].map == currentMap) {
 			for (var j = 0; j < mapTransitionPoints[i].tiles.length; ++j) {
-				if (tileIndex == mapTransitionPoints[i].tiles[j] && now - lastMapChange >= 5000) {
-				// Can only change maps every 5 seconds
+				if (tileIndex == mapTransitionPoints[i].tiles[j] && now - lastMapChange >= mapTransitionCooldown) {
 					lastMapChange = now;
-					currentMap = mapTransitionPoints[i].destination;
+					currentMap = mapTransitionPoints[i].sendToMap;
+					player.player.left = mapTransitionPoints[i].playerSpawn[0]
+					player.player.top = mapTransitionPoints[i].playerSpawn[1]
 					return true;
 				}
 			}
@@ -121,13 +125,13 @@ function changeMap() {
 	background.src = backgroundSources[currentMap];
 	walls.src = wallSources[currentMap];
 	enemy.createEnemySprites(currentMap);
-	player.createPlayerSprite();
+	minotaur.createMinotaurSprites(currentMap);
+	//player.createPlayerSprite();
 }
 
 // Updated collision detection for the minotaur, enemy, and map tiles (not fully functional yet)
 function checkPlayerCollisions(now) {
     var playerRect = player.player.calculateCollisionRectangle();
-    var minotaurRect = minotaur.getCollisionRectangle();
     
     // Check four corners of player bounding box
     var corners = [
@@ -166,15 +170,19 @@ function checkPlayerCollisions(now) {
 	}
 
     // Check if rectangles overlap (not perfect, sprites still clip one another currently)
-    if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top && !player.isAtacking) {
-        console.log("touching minotaur!");
-        handleCollision(playerRect, minotaurRect);
+	for (var i = 0; i < minotaur.sprites.length; ++i) {
+		var minotaurRect = minotaur.getCollisionRectangle();
+		
+		if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top && !player.isAtacking) {
+			console.log("touching minotaur!");
+			handleCollision(playerRect, minotaurRect);
 
-        // Enable interaction window if not already active and not talking
-        if (!canInteract && !talkActive) {
-            enableInteraction();
-        }
-    }
+			// Enable interaction window if not already active and not talking
+			if (!canInteract && !talkActive) {
+				enableInteraction();
+			}
+		}
+	}
     
 	for (var i=0; i < enemy.sprites.length; ++i) {
 		var enemyRect = enemy.sprites[i].calculateCollisionRectangle();
@@ -194,31 +202,6 @@ function checkPlayerCollisions(now) {
     // If no collision detected
     return false;
 }
-
-// May put into it's own file to simplify the code, but for now, it's here. This currently only works for detecting
-// collision with the minotaur, which is also static. More for the interaction than actual collision.
-// function checkCollisions(){
-//     var playerRect = player.player.calculateCollisionRectangle();
-//     var minotaurRect = minotaur.getCollisionRectangle();
-// 	var enemyRect = enemy.enemy.calculateCollisionRectangle();
-
-//     // Check if rectangles overlap (not perfect, sprites still clip one another currently)
-//     if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top) {
-//         console.log("touching minotaur!");
-//         handleCollision(playerRect, minotaurRect);
-
-//         // Enable interaction window if not already active and not talking
-//         if (!canInteract && !talkActive) {
-//             enableInteraction();
-//         }
-//     }
-	
-// 	else if (playerRect.left < enemyRect.right && playerRect.right > enemyRect.left && playerRect.top < enemyRect.bottom && playerRect.bottom > enemyRect.top) {
-//         console.log("touching enemy!");
-//         handleCollision(playerRect, enemyRect);
-// 	}
-// }
-
 
 // Enable the interaction window for INTERACTION_WINDOW time
 function enableInteraction() {
