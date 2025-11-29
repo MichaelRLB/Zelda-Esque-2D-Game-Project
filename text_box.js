@@ -112,7 +112,7 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
             }  
             else if(playerChoice != correctAnswer){
                 textStage = 4;
-                document.getElementById('dialogueText').innerHTML = "INCORRECT. DIE. ...Is what I would be saying if I had any attack animations.";
+                document.getElementById('dialogueText').innerHTML = "INCORRECT. DIE.";
             }
         }, {once: true});
     } 

@@ -213,10 +213,14 @@ Player.prototype = {
 			console.log('Health: ' + player.playerHealth);
 			
 			if (player.playerHealth == 0) {
-				GameOver.classList.add('fadeIn');
-				this.sprites.splice(0, 1);
+				this.playerDeath();
 			}
 		}
+	},
+	//player death
+	playerDeath: function(){
+		GameOver.classList.add('fadeIn');
+		this.sprites.splice(0, 1);		
 	},
 	
 	// This function is called by the main file to draw the player sprite "player.draw(now);"
