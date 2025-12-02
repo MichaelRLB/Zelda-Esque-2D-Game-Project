@@ -193,6 +193,7 @@ function checkPlayerCollisions(now) {
 			if (player.isAtacking) {
 				enemy.sprites.splice(i, 1);
 				player.playerHealth++;
+				document.getElementById('health-meter').innerHTML = player.playerHealth;
 				console.log('Player health:' + player.playerHealth);
 			}
 			else { 
