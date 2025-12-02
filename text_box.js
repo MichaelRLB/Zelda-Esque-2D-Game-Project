@@ -100,8 +100,8 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
                 currentRiddle += 1;
 
                 keysCollected += 1;
-				minotaur.sprites.splice(interactIndex, 1);
-				minotaur.minotaurData.splice(interactIndex, 1);
+				//minotaur.sprites.splice(interactIndex, 1);
+				//minotaur.minotaurData.splice(interactIndex, 1);
                 console.log("keys collected = ", + keysCollected);
                 document.getElementById('key-progress').innerHTML = keysCollected;
             }
@@ -125,6 +125,14 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
         TextBox.classList.remove('fadeIn');
         talkActive = false;
         textStage = 0;
+        //if answer was right, make minotaur disappear.
+        if(playerChoice === correctAnswer && currentRiddle != 5){
+            minotaur.sprites.splice(interactIndex, 1);
+			minotaur.minotaurData.splice(interactIndex, 1);
+        }
+        else if(playerChoice != correctAnswer){
+            player.playerDeath();
+        }
         //if answer was wrong, trigger player death state.
 
         window.disableInteraction();
