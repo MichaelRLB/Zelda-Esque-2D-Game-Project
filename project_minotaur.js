@@ -175,7 +175,7 @@ function checkPlayerCollisions(now) {
 		var minotaurRect = minotaur.getCollisionRectangle();
 		
 		if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top && !player.isAtacking) {
-			console.log("touching minotaur!");
+			//console.log("touching minotaur!");
 			handleCollision(playerRect, minotaurRect);
 
 			// Enable interaction window if not already active and not talking
@@ -189,12 +189,14 @@ function checkPlayerCollisions(now) {
 		var enemyRect = enemy.sprites[i].calculateCollisionRectangle();
 		// Same check as above, but for enemy
 		if (playerRect.left < enemyRect.right && playerRect.right > enemyRect.left && playerRect.top < enemyRect.bottom && playerRect.bottom > enemyRect.top) {
-			console.log("touching enemy!");
+			//console.log("touching enemy!");
 			if (player.isAtacking) {
 				enemy.sprites.splice(i, 1);
-				player.playerHealth++;
-				document.getElementById('health-meter').innerHTML = player.playerHealth;
-				console.log('Player health:' + player.playerHealth);
+				if (player.playerHealth < 3){
+					player.playerHealth++;
+					document.getElementById('health-meter').innerHTML = player.playerHealth;
+					//console.log('Player health:' + player.playerHealth);
+				}
 			}
 			else { 
 				handleCollision(playerRect, enemyRect);

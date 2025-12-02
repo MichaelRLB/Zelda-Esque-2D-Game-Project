@@ -1,6 +1,6 @@
 //Click to track mouse position; comment out when not needed.
 window.addEventListener('mousedown', function(event){
-    console.log('Mouse X:', event.clientX, 'Mouse Y:', event.clientY);
+    //console.log('Mouse X:', event.clientX, 'Mouse Y:', event.clientY);
 });
 
 //textBox object.
@@ -102,14 +102,14 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
                 keysCollected += 1;
 				//minotaur.sprites.splice(interactIndex, 1);
 				//minotaur.minotaurData.splice(interactIndex, 1);
-                console.log("keys collected = ", + keysCollected);
+               //console.log("keys collected = ", + keysCollected);
                 document.getElementById('key-progress').innerHTML = keysCollected;
             }
             if(playerChoice === correctAnswer && currentRiddle === 5){ // place win state here.
                 textStage = 4;
-                document.getElementById('dialogueText').innerHTML = "Correct! You have proven yourself worthy. You may depart my labyrinth.";
+                document.getElementById('dialogueText').innerHTML = "Correct. You have proven yourself worthy. You may depart my labyrinth.";
                 keysCollected = 0;
-                console.log("keys collected = ", + keysCollected);
+               //console.log("keys collected = ", + keysCollected);
                 currentRiddle = 0;
             }  
             else if(playerChoice != correctAnswer){
@@ -125,15 +125,16 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
         TextBox.classList.remove('fadeIn');
         talkActive = false;
         textStage = 0;
-        //if answer was right, make minotaur disappear.
+        //if answer was right, make minotaur disappear. (this isn't triggering for some reason)
         if(playerChoice === correctAnswer && currentRiddle != 5){
             minotaur.sprites.splice(interactIndex, 1);
 			minotaur.minotaurData.splice(interactIndex, 1);
         }
-        else if(playerChoice != correctAnswer){
-            player.playerDeath();
-        }
         //if answer was wrong, trigger player death state.
+        else if(playerChoice != correctAnswer){
+            //player.playerDeath();
+        }
+        
 
         window.disableInteraction();
     }
@@ -189,7 +190,7 @@ function riddleTest(){
 }
 
 function dialogue(){ //look into making an array for dialogue lines to cut down on else if branches.
-    console.log('textStage in dialogue = ' + textStage);
+   //console.log('textStage in dialogue = ' + textStage);
     if(textStage === 1){
         document.getElementById('dialogueText').innerHTML = "This is where the first line of dialogue goes; press E to advance.";
     }
