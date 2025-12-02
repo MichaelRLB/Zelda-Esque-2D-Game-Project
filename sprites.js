@@ -65,6 +65,7 @@ var Sprite = function (type, artist, behaviors) {
    
    // For destroying minotaurs that have already given a key
    this.destroyed = 'No';
+   this.index = 0;
 
    this.showCollisionRectangle = false;
 

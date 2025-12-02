@@ -8,7 +8,7 @@ var Minotaur = function () {
     this.height = 54;
 	
 	this.minotaurData = [
-		{spawn: [945, 40], map: 0, destroyed: 'No'}
+		{spawn: [945, 40], map: 0, destroyed: 'No', index: 0}
 	];
 };
 
@@ -28,6 +28,7 @@ Minotaur.prototype = {
 				this.minotaur.top = this.minotaurData[i].spawn[1];
 				this.minotaur.spawn = this.minotaurData[i].spawn;
 				this.minotaur.map = this.minotaurData[i].map;
+				this.minotaur.index = this.minotaurData[i].index;
 				this.sprites.push(this.minotaur);
 			}
 		}

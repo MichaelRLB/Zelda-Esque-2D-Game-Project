@@ -180,7 +180,7 @@ function checkPlayerCollisions(now) {
 
 			// Enable interaction window if not already active and not talking
 			if (!canInteract && !talkActive) {
-				enableInteraction(i);
+				enableInteraction(minotaur.sprites[i].index);
 			}
 		}
 	}
