@@ -105,9 +105,9 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
                 console.log("keys collected = ", + keysCollected);
                 document.getElementById('key-progress').innerHTML = keysCollected;
             }
-            if(playerChoice === correctAnswer && currentRiddle === 5){
+            if(playerChoice === correctAnswer && currentRiddle === 5){ // place win state here.
                 textStage = 4;
-                document.getElementById('dialogueText').innerHTML = "Correct. I have run out of riddles. In the real game, you would win at this point.";
+                document.getElementById('dialogueText').innerHTML = "Correct! You have proven yourself worthy. You may depart my labyrinth.";
                 keysCollected = 0;
                 console.log("keys collected = ", + keysCollected);
                 currentRiddle = 0;
@@ -119,12 +119,13 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
         }, {once: true});
     } 
     
-    //close dialogue, reset talkActive and textStage values.
+    //close dialogue, reset talkActive and textStage values . Also triggers player death state if answer is wrong.
     else if (textStage === 5){
         document.getElementById('dialogueText').innerHTML = "ok bye lol.";      
         TextBox.classList.remove('fadeIn');
         talkActive = false;
         textStage = 0;
+        //if answer was wrong, trigger player death state.
 
         window.disableInteraction();
     }

@@ -82,7 +82,7 @@ function checkTileCollision(x, y, now) {
     // Convert world coordinates to tile coordinates
     var tileX = Math.floor((x - mapOffsetX) / tileSize);
     var tileY = Math.floor((y - mapOffsetY) / tileSize);
-	console.log('X:' + x + ' | ' + 'Y:' + y );
+	// console.log('X:' + x + ' | ' + 'Y:' + y );
     
     // Check if coordinates are within map bounds, treat out-of-bounds as collision
     if (tileX < 0 || tileX >= mapWidth || tileY < 0 || tileY >= mapHeight) {
@@ -92,7 +92,7 @@ function checkTileCollision(x, y, now) {
     // Get tile value from collision map (tmj file)
     var tileIndex = (tileY * mapWidth) + tileX;
     var tileValue = collisionMap[tileIndex];
-	console.log("tile index: " + tileIndex);
+	//console.log("tile index: " + tileIndex);
 	if (checkTransitionPoints(tileIndex, now)) {
 		console.log('changeMap();');
 		changeMap();
@@ -192,6 +192,8 @@ function checkPlayerCollisions(now) {
 			console.log("touching enemy!");
 			if (player.isAtacking) {
 				enemy.sprites.splice(i, 1);
+				player.playerHealth++;
+				console.log('Player health:' + player.playerHealth);
 			}
 			else { 
 				handleCollision(playerRect, enemyRect);

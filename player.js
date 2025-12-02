@@ -211,6 +211,7 @@ Player.prototype = {
 			player.lastDamaged = now;
 			player.playerHealth--;
 			console.log('Health: ' + player.playerHealth);
+			document.getElementById('health-meter').innerHTML = player.playerHealth;
 			
 			if (player.playerHealth == 0) {
 				this.playerDeath();

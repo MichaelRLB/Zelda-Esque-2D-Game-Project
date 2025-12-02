@@ -74,6 +74,7 @@ body {
    color: red;
    padding-left: 10px;
    padding-top: 5px;
+   background-color: black;
 }
 
 #health-meter{
