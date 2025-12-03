@@ -5,6 +5,7 @@ window.addEventListener('mousedown', function(event){
 
 //textBox object.
 var talkActive = false;
+var playerChoice;
 var textStage = 0;
 let currentRiddle = 0;
 let keysCollected = 0;
@@ -63,11 +64,11 @@ function interact(){
 }
 
 function minotaurDialogue(){ //Upgraded riddle system; check notebook for alterations. 
-    var playerChoice;
     const riddle = riddleData[currentRiddle].question;
     const correctAnswer = riddleData[currentRiddle].answer;
     //console.log('textStage = ' + textStage);
     if(textStage === 1){
+		//playerChoice = "";
         document.getElementById('dialogueText').innerHTML = "Riddle me this:";
     }
     if(textStage === 2){
@@ -97,12 +98,10 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
                 textStage = 4;
                 document.getElementById('dialogueText').innerHTML = "Correct. You may have my key. May the Gods bless your journey.";
 
-                currentRiddle += 1;
-
                 keysCollected += 1;
 				//minotaur.sprites.splice(interactIndex, 1);
 				//minotaur.minotaurData.splice(interactIndex, 1);
-               //console.log("keys collected = ", + keysCollected);
+                //console.log("keys collected = ", + keysCollected);
                 document.getElementById('key-progress').innerHTML = keysCollected;
             }
             if(playerChoice === correctAnswer && currentRiddle === 5){ // place win state here.
@@ -125,6 +124,7 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
         TextBox.classList.remove('fadeIn');
         talkActive = false;
         textStage = 0;
+		currentRiddle += 1;
         //if answer was right, make minotaur disappear. (this isn't triggering for some reason)
         if(playerChoice === correctAnswer && currentRiddle != 5){
             minotaur.sprites.splice(interactIndex, 1);

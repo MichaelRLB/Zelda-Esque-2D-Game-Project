@@ -6,9 +6,9 @@ var canvas = document.getElementById('game-canvas'),
 
 // Images
 var background = new Image();
-var backgroundSources = ['./maps/Map1-Entrance-Ground.png', './maps/Map2-MainRoom.png', ];
+var backgroundSources = ['./maps/Map1-Entrance-Ground.png', './maps/Map2-MainRoom.png', './maps/Map3A-RightHallway-Ground.png'];
 var walls = new Image();
-var wallSources = ['./maps/Map1-Entrance-Walls.png', './maps/Map2-MainRoom-Walls.png'];
+var wallSources = ['./maps/Map1-Entrance-Walls.png', './maps/Map2-MainRoom-Walls.png', './maps/Map3A-RightHallway-Walls.png'];
 
 // Interaction variables, bool for activating interaction state, timer for interaction, and time for timer
 var canInteract = false;
@@ -28,7 +28,8 @@ var mapOffsetY = 0;
 // index 0 = map0 (& map0 = Map1-Entrance) | playerSpawn = [x, y] AKA [left, top] | sendToMap = the map data point you transition to (map0 = 0)
 var mapTransitionPoints = [
 {map: 0, tiles: [28, 29, 30, 31], sendToMap: 1, playerSpawn: [978, 1218]},
-{map: 1, tiles: [2368, 2369, 2370, 2371], sendToMap: 0, playerSpawn: [978, 30]}
+{map: 1, tiles: [2368, 2369, 2370, 2371], sendToMap: 0, playerSpawn: [978, 30]},
+{map: 1, tiles: [1559, 1619, 1679, 1739], sendToMap: 2, playerSpawn: [56, 856]},
 ];
 // Can only change maps every 3 seconds
 var mapTransitionCooldown = 3000;
@@ -82,7 +83,7 @@ function checkTileCollision(x, y, now) {
     // Convert world coordinates to tile coordinates
     var tileX = Math.floor((x - mapOffsetX) / tileSize);
     var tileY = Math.floor((y - mapOffsetY) / tileSize);
-	// console.log('X:' + x + ' | ' + 'Y:' + y );
+	console.log('X:' + x + ' | ' + 'Y:' + y );
     
     // Check if coordinates are within map bounds, treat out-of-bounds as collision
     if (tileX < 0 || tileX >= mapWidth || tileY < 0 || tileY >= mapHeight) {
@@ -92,7 +93,7 @@ function checkTileCollision(x, y, now) {
     // Get tile value from collision map (tmj file)
     var tileIndex = (tileY * mapWidth) + tileX;
     var tileValue = collisionMap[tileIndex];
-	//console.log("tile index: " + tileIndex);
+	console.log("tile index: " + tileIndex);
 	if (checkTransitionPoints(tileIndex, now)) {
 		console.log('changeMap();');
 		changeMap();
