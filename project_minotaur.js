@@ -30,6 +30,9 @@ var mapTransitionPoints = [
 {map: 0, tiles: [28, 29, 30, 31], sendToMap: 1, playerSpawn: [978, 1218]},
 {map: 1, tiles: [2368, 2369, 2370, 2371], sendToMap: 0, playerSpawn: [978, 30]},
 {map: 1, tiles: [1559, 1619, 1679, 1739], sendToMap: 2, playerSpawn: [56, 856]},
+{map: 1, tiles: [239, 299, 359, 419], sendToMap: 2, playerSpawn: [72, 145]},
+{map: 2, tiles: [1500, 1560, 1620, 1680], sendToMap: 1, playerSpawn: [1860, 856]},
+{map: 2, tiles: [180, 240, 300, 360], sendToMap: 1, playerSpawn: [1860, 145]}
 ];
 // Can only change maps every 3 seconds
 var mapTransitionCooldown = 3000;
