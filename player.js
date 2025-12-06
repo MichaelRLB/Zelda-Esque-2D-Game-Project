@@ -11,7 +11,7 @@ var Player = function () {
 	this.animationRate = 12,
 	
 	// Initial player variables
-	this.playerMoveSpeed = 4,
+	this.playerMoveSpeed = 16,
 	this.playerCellWidth = 41,
 	this.playerCellHeight = 49,
 	this.playerHealth = 3,

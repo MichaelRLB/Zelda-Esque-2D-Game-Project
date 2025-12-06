@@ -6,9 +6,21 @@ var canvas = document.getElementById('game-canvas'),
 
 // Images
 var background = new Image();
-var backgroundSources = ['./maps/Map1-Entrance-Ground.png', './maps/Map2-MainRoom.png', './maps/Map3A-RightHallway-Ground.png'];
+var backgroundSources = [
+		'./Maps/Map1-Entrance-Ground.png', './Maps/Map2-MainRoom.png', './Maps/Map3A-RightHallway-Ground.png',
+		'./Maps/Map3B-LeftHallway-Ground.png', './Maps/Map4A-TopRightBattleRoom-Ground.png', './Maps/Map4B-TopRightTrophyRoom-Ground.png',
+		'./Maps/Map5A-BottomRightBattleRoom-Ground.png', './Maps/Map5B-BottomRightTrophyRoom-Ground.png', './Maps/Map6A-TopLeftBattleRoom-Ground.png',
+		'./Maps/Map6B-TopLeftTrophyRoom-Ground.png', './Maps/Map7A-BottomLeftBattleRoom-Ground.png', './Maps/Map7B-BottomLeftTrophyRoom-Ground.png',
+		'./Maps/Map8-FinalBattleRoom-Ground.png', './Maps/Map9-FinalTrophyRoom-Ground.png'
+		];
 var walls = new Image();
-var wallSources = ['./maps/Map1-Entrance-Walls.png', './maps/Map2-MainRoom-Walls.png', './maps/Map3A-RightHallway-Walls.png'];
+var wallSources = [
+		'./Maps/Map1-Entrance-Walls.png', './Maps/Map2-MainRoom-Walls.png', './Maps/Map3A-RightHallway-Walls.png',
+		'./Maps/Map3B-LeftHallway-Walls.png', './Maps/Map4A-TopRightBattleRoom-Walls.png', './Maps/Map4B-TopRightTrophyRoom-Walls.png',
+		'./Maps/Map5A-BottomRightBattleRoom-Walls.png', './Maps/Map5B-BottomRightTrophyRoom-Walls.png', './Maps/Map6A-TopLeftBattleRoom-Walls.png',
+		'./Maps/Map6B-TopLeftTrophyRoom-Walls.png', './Maps/Map7A-BottomLeftBattleRoom-Walls.png', './Maps/Map7B-BottomLeftTrophyRoom-Walls.png',
+		'./Maps/Map8-FinalBattleRoom-Walls.png', './Maps/Map9-FinalTrophyRoom-Walls.png'
+		];
 
 // Interaction variables, bool for activating interaction state, timer for interaction, and time for timer
 var canInteract = false;
@@ -26,15 +38,41 @@ var mapOffsetX = 0;
 var mapOffsetY = 0;
 
 // index 0 = map0 (& map0 = Map1-Entrance) | playerSpawn = [x, y] AKA [left, top] | sendToMap = the map data point you transition to (map0 = 0)
+// Each map's # is their index number in backgroundSources / wallSources | Their corresponding mapData array is also labeled with that same #
+// map3 tile  indexes are reversed horizontally
 var mapTransitionPoints = [
 {map: 0, tiles: [28, 29, 30, 31], sendToMap: 1, playerSpawn: [978, 1218]},
 {map: 1, tiles: [2368, 2369, 2370, 2371], sendToMap: 0, playerSpawn: [978, 30]},
 {map: 1, tiles: [1559, 1619, 1679, 1739], sendToMap: 2, playerSpawn: [56, 856]},
 {map: 1, tiles: [239, 299, 359, 419], sendToMap: 2, playerSpawn: [72, 145]},
+{map: 1, tiles: [1500, 1560, 1620, 1680], sendToMap: 3, playerSpawn: [1860, 856]},
+{map: 1, tiles: [180, 240, 300, 360], sendToMap: 3, playerSpawn: [1860, 145]},
+{map: 1, tiles: [28, 29, 30, 31], sendToMap: 12, playerSpawn: [978, 1218]},
 {map: 2, tiles: [1500, 1560, 1620, 1680], sendToMap: 1, playerSpawn: [1860, 856]},
-{map: 2, tiles: [180, 240, 300, 360], sendToMap: 1, playerSpawn: [1860, 145]}
+{map: 2, tiles: [180, 240, 300, 360], sendToMap: 1, playerSpawn: [1860, 145]},
+{map: 2, tiles: [33, 34, 35, 36], sendToMap: 4, playerSpawn: [1120, 1210]},
+{map: 2, tiles: [2373, 2374, 2375, 2376], sendToMap: 6, playerSpawn: [1120, 50]},
+{map: 3, tiles: [1500, 1560, 1620, 1680], sendToMap: 1, playerSpawn: [56, 856]},
+{map: 3, tiles: [180, 240, 300, 360], sendToMap: 1, playerSpawn: [72, 145]},
+{map: 3, tiles: [33, 34, 35, 36], sendToMap: 8, playerSpawn: [850, 1210]},
+{map: 3, tiles: [2373, 2374, 2375, 2376], sendToMap: 10, playerSpawn: [850, 80]},
+{map: 4, tiles: [2373, 2374, 2375, 2376], sendToMap: 2, playerSpawn: [1120, 50]},
+{map: 4, tiles: [33, 34, 35, 36], sendToMap: 5, playerSpawn: [1120, 1210]},
+{map: 5, tiles: [2373, 2374, 2375, 2376], sendToMap: 4, playerSpawn: [1120, 50]},
+{map: 6, tiles: [33, 34, 35, 36], sendToMap: 2, playerSpawn: [1120, 1210]},
+{map: 6, tiles: [2373, 2374, 2375, 2376], sendToMap: 7, playerSpawn: [1120, 50]},
+{map: 7, tiles: [33, 34, 35, 36], sendToMap: 6, playerSpawn: [1120, 1210]},
+{map: 8, tiles: [2365, 2366, 2367, 2368], sendToMap: 3, playerSpawn: [800, 80]},
+{map: 8, tiles: [25, 26, 27, 28], sendToMap: 9, playerSpawn: [850, 1210]},
+{map: 9, tiles: [2365, 2366, 2367, 2368], sendToMap: 8, playerSpawn: [850, 80]},
+{map: 10, tiles: [25, 26, 27, 28], sendToMap: 3, playerSpawn: [800, 1210]},
+{map: 10, tiles: [2365, 2366, 2367, 2368], sendToMap: 11, playerSpawn: [850, 80]},
+{map: 11, tiles: [25, 26, 27, 28], sendToMap: 10, playerSpawn: [850, 1210]},
+{map: 12, tiles: [2368, 2369, 2370, 2371], sendToMap: 1, playerSpawn: [978, 30]},
+{map: 12, tiles: [28, 29, 30, 31], sendToMap: 13, playerSpawn: [978, 1218]},
+{map: 13, tiles: [2368, 2369, 2370, 2371], sendToMap: 12, playerSpawn: [978, 30]}
 ];
-// Can only change maps every 3 seconds
+// Can only change Maps every 3 seconds
 var mapTransitionCooldown = 3000;
 var lastMapChange = 0;
 
@@ -61,7 +99,8 @@ function initializeImages(){
 //
 
 function startGame() {
-	draw();
+	drawBackground();
+	drawWalls();
 	player.initializePlayerImages();
 	player.createPlayerSprite();
 	enemy.initializeEnemyImages();
@@ -71,13 +110,12 @@ function startGame() {
 	window.requestAnimationFrame(gameLoop);
 }
 
-function draw() {
-   drawBackground();
+function drawWalls() {
+   context.drawImage(walls, 0, 0);
 }
 
 function drawBackground() {
     context.drawImage(background, 0, 0);
-	context.drawImage(walls, 0, 0);
 }
 
 // Function for checking the collision of a point (x, y) with the tile map (doesn't work on left-right sides yet)
@@ -95,6 +133,8 @@ function checkTileCollision(x, y, now) {
     
     // Get tile value from collision map (tmj file)
     var tileIndex = (tileY * mapWidth) + tileX;
+	// The map zip didn't have the left hallway so I flipped the right one and this math searches through the right hallway mapData from right to left to effectively flip it horizontally as well
+	if (currentMap == 3) { tileIndex = ((tileY + 1) * mapWidth) - (tileX + 1); }
     var tileValue = collisionMap[tileIndex];
 	console.log("tile index: " + tileIndex);
 	if (checkTransitionPoints(tileIndex, now)) {
@@ -289,8 +329,10 @@ function gameLoop(now) {
 	if (now - lastFrame >= 1000 / fpsRate) {
 		lastFrame = now;
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		draw();
+		drawBackground();
 		player.draw(now);
+		// Seperated drawing the walls and background to test drawing the player behind the walls
+		drawWalls();
 		minotaur.draw(context);
 		enemy.draw(now);
 		checkPlayerCollisions(now);
