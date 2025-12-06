@@ -72,6 +72,7 @@ var mapTransitionPoints = [
 {map: 12, tiles: [28, 29, 30, 31], sendToMap: 13, playerSpawn: [978, 1218]},
 {map: 13, tiles: [2368, 2369, 2370, 2371], sendToMap: 12, playerSpawn: [978, 30]}
 ];
+
 // Can only change Maps every 3 seconds
 var mapTransitionCooldown = 3000;
 var lastMapChange = 0;
@@ -136,7 +137,7 @@ function checkTileCollision(x, y, now) {
 	// The map zip didn't have the left hallway so I flipped the right one and this math searches through the right hallway mapData from right to left to effectively flip it horizontally as well
 	if (currentMap == 3) { tileIndex = ((tileY + 1) * mapWidth) - (tileX + 1); }
     var tileValue = collisionMap[tileIndex];
-	console.log("tile index: " + tileIndex);
+	//console.log("tile index: " + tileIndex);
 	if (checkTransitionPoints(tileIndex, now)) {
 		console.log('changeMap();');
 		changeMap();

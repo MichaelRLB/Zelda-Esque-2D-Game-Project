@@ -7,8 +7,14 @@ var Minotaur = function () {
     this.width = 30;
     this.height = 54;
 	
+	// spawn = the spawn position of the enemy sprite in [left, top] format
+	// map = which map the sprite will spawn on
 	this.minotaurData = [
-		{spawn: [945, 40], map: 0, destroyed: 'No', index: 0}
+		{spawn: [945, 40], map: 0}/*,
+		{spawn: [945, 40], map: 0},
+		{spawn: [945, 40], map: 0},
+		{spawn: [945, 40], map: 0},
+		{spawn: [945, 40], map: 0}*/
 	];
 };
 
@@ -22,13 +28,13 @@ Minotaur.prototype = {
 		if (this.sprites.length > 0) { this.clearMinotaurSprites(); }
 		
 		for (var i = 0; i < this.minotaurData.length; ++i) {
-			if (this.minotaurData[i].map == currentMap && this.minotaurData[i].destroyed == 'No') {
+			if (this.minotaurData[i].map == currentMap) {
 				this.minotaur = new Sprite('minotaur');
 				this.minotaur.left = this.minotaurData[i].spawn[0];
 				this.minotaur.top = this.minotaurData[i].spawn[1];
 				this.minotaur.spawn = this.minotaurData[i].spawn;
 				this.minotaur.map = this.minotaurData[i].map;
-				this.minotaur.index = this.minotaurData[i].index;
+				this.minotaur.index = i;
 				this.sprites.push(this.minotaur);
 			}
 		}

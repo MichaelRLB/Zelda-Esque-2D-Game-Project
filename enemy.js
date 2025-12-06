@@ -70,11 +70,10 @@ var Enemy = function () {
 		{left: 1136, top: 209, width: this.enemyCellWidth, height: this.enemyCellHeight}
 	],
 	
-	// spawn = the spawn position of the enemy sprite in [left, top] format
+	// spawn = the spawn position of the enemy sprite in [left, top] format (the spawn point will be the middle of their path)
 	// direction = the intially direction it moves in from its spawn point
-	// distance = how far it moves until it turns back to the spawn point
-	// map = which map the sprite will spawn on (tbd)
-	// TODO: Fix only the last enemy sprite having collision
+	// distance = how far it moves until it turns back to the spawn point (in pixels) 
+	// map = which map the sprite will spawn on
 	this.enemyData = [
 		{spawn: [950, 800], direction: 'Right', distance: 50, map: 0},
 		{spawn: [1200, 275], direction: 'Left', distance: 150, map: 0},
