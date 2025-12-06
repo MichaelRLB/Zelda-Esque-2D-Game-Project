@@ -10,11 +10,11 @@ var Minotaur = function () {
 	// spawn = the spawn position of the enemy sprite in [left, top] format
 	// map = which map the sprite will spawn on
 	this.minotaurData = [
-		{spawn: [945, 40], map: 0}/*,
 		{spawn: [945, 40], map: 0},
-		{spawn: [945, 40], map: 0},
-		{spawn: [945, 40], map: 0},
-		{spawn: [945, 40], map: 0}*/
+		{spawn: [867.5, 1067.5], map: 9},
+		{spawn: [1121.5, 1075.5], map: 5},
+		{spawn: [867.5, 149.5], map: 11},
+		{spawn: [1129.5, 143.5], map: 7}
 	];
 };
 

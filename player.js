@@ -319,6 +319,10 @@ window.addEventListener('keydown', function (e){
 			player.moveStop();
 			player.attack();
 		}
+		//sprint function: still haven't figured out how to turn it off.
+		else if (key === 16) { // shift key
+			player.playerMoveSpeed = 8;
+		}
 	}
 });
 
@@ -339,6 +343,9 @@ window.addEventListener('keyup', function (e){
 		}
 		else if (key === 68 || key === 39) {
 			player.isMovingRight = false;
+		}
+		else if (key === 16) {
+			player.playerMoveSpeed = 4;
 		}
 		
 		if (!player.isMovingUp && !player.isMovingLeft && !player.isMovingDown && !player.isMovingRight && !player.isAtacking) {

@@ -132,7 +132,7 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
         }
         //if answer was wrong, trigger player death state.
         else if(playerChoice != correctAnswer){
-            //player.playerDeath();
+            player.playerDeath();
         }
         
 
