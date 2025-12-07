@@ -330,7 +330,7 @@ window.addEventListener('keydown', function (e){
 window.addEventListener('keyup', function (e){
     var key = e.keyCode;
 
-	if (key === 87 || key === 38 || key === 65 || key === 37 || key === 83 || key === 40 || key === 68 || key === 39)
+	if (key === 87 || key === 38 || key === 65 || key === 37 || key === 83 || key === 40 || key === 68 || key === 39 || key === 16)
     {
 		if (key === 87 || key === 38) {
 			player.isMovingUp = false;
