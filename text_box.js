@@ -127,7 +127,8 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
 		currentRiddle += 1;
         //if answer was right, make minotaur disappear. (this isn't triggering for some reason)
         if(playerChoice === correctAnswer && currentRiddle != 5){
-            minotaur.sprites.splice(interactIndex, 1);
+			console.log(interactIndex);
+            minotaur.sprites.splice(0, 1);
 			minotaur.minotaurData.splice(interactIndex, 1);
         }
         //if answer was wrong, trigger player death state.
