@@ -102,7 +102,7 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
 				//minotaur.sprites.splice(interactIndex, 1);
 				//minotaur.minotaurData.splice(interactIndex, 1);
                 //console.log("keys collected = ", + keysCollected);
-                document.getElementById('key-progress').innerHTML = keysCollected;
+                document.getElementById('key-progress').innerHTML = keysCollected + " of 4";
             }
             if(playerChoice === correctAnswer && currentRiddle === 5){ // place win state here.
                 textStage = 4;

@@ -1,5 +1,6 @@
 var Minotaur = function () {
     this.minotaurImage = new Image();
+	this.finalMinotaurImage = new Image();
 	this.sprites = [];
 	this.canvas = document.getElementById('game-canvas');
 	this.context = this.canvas.getContext('2d');
@@ -10,11 +11,14 @@ var Minotaur = function () {
 	// spawn = the spawn position of the enemy sprite in [left, top] format
 	// map = which map the sprite will spawn on
 	this.minotaurData = [
+		//take out the first one in the final game
 		{spawn: [945, 40], map: 0},
 		{spawn: [867.5, 1067.5], map: 9},
 		{spawn: [1121.5, 1075.5], map: 5},
 		{spawn: [867.5, 149.5], map: 11},
-		{spawn: [1129.5, 143.5], map: 7}
+		{spawn: [1129.5, 143.5], map: 7},
+		//final minotaur (code to spawn different sprite isn't working)
+		{spawn: [963.5, 143.5], map: 13}
 	];
 };
 
@@ -22,6 +26,7 @@ Minotaur.prototype = {
     // Initialize the minotaur image by grabbing reference path to image
     initializeMinotaurImage: function () {
         this.minotaurImage.src = 'game_project_sprites/minotaur_ph.png';
+		this.finalMinotaurImage.src = 'game_project_sprites/final_minotaur.png'
     },
 	
 	createMinotaurSprites: function (currentMap) {
@@ -56,6 +61,9 @@ Minotaur.prototype = {
 			sprite = this.sprites[i];
 			//console.log(sprite);
 			context.drawImage(this.minotaurImage,  sprite.left, sprite.top);
+			if (i === 1) {
+				context.drawImage(this.finalMinotaurImage, sprite.left, sprite.top);
+			}
 		}
     },
     
