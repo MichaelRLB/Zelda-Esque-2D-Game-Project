@@ -75,10 +75,28 @@ var Enemy = function () {
 	// distance = how far it moves until it turns back to the spawn point (in pixels) 
 	// map = which map the sprite will spawn on
 	this.enemyData = [
+		//entrance
 		{spawn: [950, 800], direction: 'Right', distance: 50, map: 0},
 		{spawn: [1200, 275], direction: 'Left', distance: 150, map: 0},
+		//main room
 		{spawn: [600, 350], direction: 'Up', distance: 75, map: 1},
-		{spawn: [800, 275], direction: 'Down', distance: 50, map: 1}
+		{spawn: [800, 275], direction: 'Down', distance: 50, map: 1},
+		//battle room 1 (top left)
+		{spawn: [935, 675], direction: 'Right', distance: 60, map: 8},
+		{spawn: [692, 335], direction: 'Down', distance: 75, map: 8},
+		//battle room 2 (top right)
+		{spawn: [857, 395], direction: 'Right', distance: 75, map: 4},
+		{spawn: [1265, 907], direction: 'Left', distance: 75, map: 4},
+		//battle room 3 (bottom left)
+		{spawn: [735, 256], direction: 'Down', distance: 100, map: 10},
+		{spawn: [775, 704], direction: 'Left', distance: 100, map: 10},
+		//battle room 4 (bottom right)
+		{spawn: [1041, 259], direction: 'Right', distance: 100, map: 6},
+		{spawn: [1189, 551], direction: 'Left', distance: 100, map: 6},
+		//final battle room (top)
+		{spawn: [819, 835], direction: 'Right', distance: 100, map: 12},
+		{spawn: [1091, 636], direction: 'Left', distance: 100, map: 12},
+		{spawn: [1027, 174], direction: 'Right', distance: 100, map: 12},			
 	],
 	
 	// Function for animating the enemy sprite (taken straight from snailbait)
