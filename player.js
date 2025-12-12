@@ -29,7 +29,7 @@ var Player = function () {
 	// Initailizes the player image / spritesheet
 	this.spritesheet = new Image(),
 	this.sprites = [],
-	
+
 	// The player spritesheet cells for the different animations
 	this.playerCellsUp = [
 		{left: 17, top: 13, width: this.playerCellWidth, height: this.playerCellHeight},
@@ -141,6 +141,21 @@ var Player = function () {
     }
 };
 
+// Death Audio
+let deathTrack = new Audio("Audio/Death.mp3");
+let deathAudioStarted = false;
+
+// Necessary to allow death sound to play
+window.addEventListener("keydown", () => {
+    if (!deathAudioStarted) {
+        // Audio isn't actually played here, just made ready to play
+        deathTrack.play().catch(() => {});
+        deathTrack.pause();
+        deathTrack.currentTime = 0;
+        deathAudioStarted = true;
+    }
+});
+
 // Player prototype that initailizes most of the functions for the player 
 Player.prototype = {
 	
@@ -222,6 +237,16 @@ Player.prototype = {
 	playerDeath: function(){
 		GameOver.classList.add('fadeIn');
 		this.sprites.splice(0, 1);		
+
+		// Stop Ambient
+		ambientTrack.pause();
+		ambientTrack.currentTime = 0;
+
+		// Play death audio
+		if (deathAudioStarted) {
+			deathTrack.currentTime = 0;
+			deathTrack.play();
+		}
 	},
 	
 	// This function is called by the main file to draw the player sprite "player.draw(now);"
