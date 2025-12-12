@@ -28,6 +28,21 @@ var interactIndex = 999; // For storing what minotaur is being talked to
 var interactionTimer = null;
 var INTERACTION_WINDOW = 1500; // in milliseconds
 
+// Audio
+let ambientTrack = new Audio("Audio/Ambient.mp3");
+ambientTrack.loop = true; // Makes audio loop
+let audioStarted = false;
+
+// This function is necessary because js is weird, it requires some user interaction to begin playing music. 
+// If our game started with a button or something, it'd be easier to implement, but with this music begins at the first
+// button the player presses.
+window.addEventListener("keydown", () => {
+    if (!audioStarted) {
+        ambientTrack.play();
+        audioStarted = true;
+    }
+});
+
 // Collision detection system variables
 var currentMap = mapData.layers[0].map;
 var collisionMap = []; 
