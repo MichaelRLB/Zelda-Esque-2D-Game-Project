@@ -140,7 +140,8 @@ var Player = function () {
 		}      
     }
 };
-
+// Sword Audio
+let swordSound = new Audio("Audio/Attack_sound.mp3")
 // Death Audio
 let deathTrack = new Audio("Audio/Death.mp3");
 let deathAudioStarted = false;
