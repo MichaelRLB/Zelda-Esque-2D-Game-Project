@@ -12,7 +12,7 @@ var Minotaur = function () {
 	// map = which map the sprite will spawn on
 	this.minotaurData = [
 		//take out the first one in the final game
-		{spawn: [945, 40], map: 0},
+		//{spawn: [945, 40], map: 0},
 		{spawn: [867.5, 1067.5], map: 9},
 		{spawn: [1121.5, 1075.5], map: 5},
 		{spawn: [867.5, 149.5], map: 11},
@@ -25,8 +25,8 @@ var Minotaur = function () {
 Minotaur.prototype = {
     // Initialize the minotaur image by grabbing reference path to image
     initializeMinotaurImage: function () {
-        this.minotaurImage.src = 'game_project_sprites/minotaur_ph.png';
-		this.finalMinotaurImage.src = 'game_project_sprites/final_minotaur.png'
+        this.minotaurImage.src = './game_project_sprites/minotaur_ph.png';
+		this.finalMinotaurImage.src = './game_project_sprites/final_minotaur.png';
     },
 	
 	createMinotaurSprites: function (currentMap) {
@@ -57,12 +57,14 @@ Minotaur.prototype = {
         //context.drawImage(this.minotaurImage, this.left, this.top);
 		var sprite;
 		
-		for (var i=0; i < this.sprites.length; ++i) {
+		for (var i = 0; i < this.sprites.length; ++i) {
 			sprite = this.sprites[i];
 			//console.log(sprite);
-			context.drawImage(this.minotaurImage,  sprite.left, sprite.top);
-			if (i === 1) {
+			if (sprite.map == 13) {
 				context.drawImage(this.finalMinotaurImage, sprite.left, sprite.top);
+			}
+			else {
+				context.drawImage(this.minotaurImage,  sprite.left, sprite.top);
 			}
 		}
     },
