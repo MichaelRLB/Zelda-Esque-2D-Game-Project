@@ -24,7 +24,7 @@ var Player = function () {
 	this.isMovingRight = false,
 	this.playerDirection = 'Up',
 	this.wallCollision = false,
-	this.isAtacking = false,
+	this.isAttacking = false,
 	
 	// Initailizes the player image / spritesheet
 	this.spritesheet = new Image(),
@@ -203,9 +203,9 @@ Player.prototype = {
     },
 	
 	isAttackFinished: function() {
-		if (this.player.artist.cellIndex >= 4 && player.isAtacking) {
+		if (this.player.artist.cellIndex >= 4 && player.isAttacking) {
 			this.player.artist.cellIndex = 0;
-			player.isAtacking = false;
+			player.isAttacking = false;
 			if (player.playerDirection == 'Up') { this.player.artist.cells = this.playerCellsUp}
 			else if (player.playerDirection == 'Left') { this.player.artist.cells = this.playerCellsLeft }
 			else if (player.playerDirection == 'Down') { this.player.artist.cells = this.playerCellsDown }
@@ -226,7 +226,7 @@ Player.prototype = {
 		if (now - player.lastDamaged >= 1000 && player.playerHealth > 0) {
 			player.lastDamaged = now;
 			player.playerHealth--;
-			console.log('Health: ' + player.playerHealth);
+			//console.log('Health: ' + player.playerHealth);
 			document.getElementById('health-meter').innerHTML = player.playerHealth;
 			
 			if (player.playerHealth == 0) {
@@ -262,7 +262,7 @@ Player.prototype = {
 	moveStop: function () {
         this.player.velocityX = 0;
         this.player.velocityY = 0;
-        if (!player.isAtacking) { this.player.animationRate = 0; }
+        if (!player.isAttacking) { this.player.animationRate = 0; }
 		player.isMovingUp = false;
 		player.isMovingLeft = false;
 		player.isMovingDown = false;
@@ -306,7 +306,7 @@ Player.prototype = {
    },
    
     attack: function () {
-		player.isAtacking = true;
+		player.isAttacking = true;
         this.player.animationRate = this.animationRate;
 		this.player.artist.cellIndex = 0;
 		if (player.playerDirection == 'Up') { this.player.artist.cells = this.playerAttackCellsUp }
@@ -324,7 +324,7 @@ Player.prototype = {
 // Keybind functions (part 1 - movement / attacking)
 window.addEventListener('keydown', function (e){
     var key = e.keyCode;
-	if ((textStage <= 0 || textStage >= 5) && !player.isAtacking && !player.wallCollision) {
+	if ((textStage <= 0 || textStage >= 5) && !player.isAttacking && !player.wallCollision) {
 		if (key === 87 || key === 38) {		 // 'w' or up arrow
 			player.moveStop();
 			player.moveUp();
@@ -374,9 +374,9 @@ window.addEventListener('keyup', function (e){
 			player.playerMoveSpeed = 4;
 		}
 		
-		if (!player.isMovingUp && !player.isMovingLeft && !player.isMovingDown && !player.isMovingRight && !player.isAtacking) {
+		if (!player.isMovingUp && !player.isMovingLeft && !player.isMovingDown && !player.isMovingRight && !player.isAttacking) {
 			player.moveStop();
-			console.log('Player stopped moving');
+			//console.log('Player stopped moving');
 		}
 	}
 });

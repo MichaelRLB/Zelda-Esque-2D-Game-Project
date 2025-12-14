@@ -223,7 +223,7 @@ function checkPlayerCollisions(now) {
 		player.wallCollision = false;
 	}
 	
-	if (player.isAtacking) {
+	if (player.isAttacking) {
 		playerRect.top -= 30;
 		playerRect.left -= 30;
 		playerRect.bottom += 30;
@@ -234,7 +234,7 @@ function checkPlayerCollisions(now) {
 	for (var i = 0; i < minotaur.sprites.length; ++i) {
 		var minotaurRect = minotaur.getCollisionRectangle();
 		
-		if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top && !player.isAtacking) {
+		if (playerRect.left < minotaurRect.right && playerRect.right > minotaurRect.left && playerRect.top < minotaurRect.bottom && playerRect.bottom > minotaurRect.top && !player.isAttacking) {
 			//console.log("touching minotaur!");
 			handleCollision(playerRect, minotaurRect);
 
@@ -250,7 +250,7 @@ function checkPlayerCollisions(now) {
 		// Same check as above, but for enemy
 		if (playerRect.left < enemyRect.right && playerRect.right > enemyRect.left && playerRect.top < enemyRect.bottom && playerRect.bottom > enemyRect.top) {
 			//console.log("touching enemy!");
-			if (player.isAtacking) {
+			if (player.isAttacking) {
 				enemy.sprites.splice(i, 1);
 				if (player.playerHealth < 3){
 					player.playerHealth++;
