@@ -306,6 +306,8 @@ Player.prototype = {
    },
    
     attack: function () {
+		swordSound.currentTime = 0;
+		swordSound.play();
 		player.isAttacking = true;
         this.player.animationRate = this.animationRate;
 		this.player.artist.cellIndex = 0;
