@@ -256,7 +256,15 @@ function checkPlayerCollisions(now) {
 			//console.log("touching barrier!");
 			handleCollision(playerRect, barrierRect);
 			
-			// key logic here
+			if (keysCollected >= 4)
+			{
+				barrier.sprites.splice(0, 1);
+				barrier.barrierData.splice(0, 1);
+			}
+			else
+			{
+				console.log('Need more keys');
+			}
 		}
 	}
     

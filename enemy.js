@@ -96,7 +96,7 @@ var Enemy = function () {
 		//final battle room (top)
 		{spawn: [819, 835], direction: 'Right', distance: 100, map: 12},
 		{spawn: [1091, 636], direction: 'Left', distance: 100, map: 12},
-		{spawn: [1027, 174], direction: 'Right', distance: 100, map: 12},			
+		{spawn: [1027, 174], direction: 'Right', distance: 100, map: 12}
 	],
 	
 	// Function for animating the enemy sprite (taken straight from snailbait)
