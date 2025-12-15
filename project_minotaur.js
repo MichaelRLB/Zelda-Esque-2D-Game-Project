@@ -112,6 +112,7 @@ function initializeImages(){
 // "player." = the player.js script
 // "enemy." = the enemy.js script
 // "minotaur." = the minotaur.js script
+// "barrier." = the barrier.js script
 //
 
 function startGame() {
@@ -123,6 +124,8 @@ function startGame() {
 	enemy.createEnemySprites(currentMap);
     minotaur.initializeMinotaurImage();
 	minotaur.createMinotaurSprites(currentMap);
+	barrier.initializeBarrierImage();
+	barrier.createBarrierSprites(currentMap);
 	window.requestAnimationFrame(gameLoop);
 }
 
@@ -187,6 +190,7 @@ function changeMap() {
 	walls.src = wallSources[currentMap];
 	enemy.createEnemySprites(currentMap);
 	minotaur.createMinotaurSprites(currentMap);
+	barrier.createBarrierSprites(currentMap);
 	//player.createPlayerSprite();
 }
 
@@ -242,6 +246,17 @@ function checkPlayerCollisions(now) {
 			if (!canInteract && !talkActive) {
 				enableInteraction(minotaur.sprites[i].index);
 			}
+		}
+	}
+	
+	for (var i = 0; i < barrier.sprites.length; ++i) {
+		var barrierRect = barrier.getCollisionRectangle();
+		
+		if (playerRect.left < barrierRect.right && playerRect.right > barrierRect.left && playerRect.top < barrierRect.bottom && playerRect.bottom > barrierRect.top && !player.isAttacking) {
+			//console.log("touching barrier!");
+			handleCollision(playerRect, barrierRect);
+			
+			// key logic here
 		}
 	}
     
@@ -346,6 +361,7 @@ function gameLoop(now) {
 		lastFrame = now;
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		drawBackground();
+		barrier.draw(context);
 		player.draw(now);
 		// Seperated drawing the walls and background to test drawing the player behind the walls
 		drawWalls();

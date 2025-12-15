@@ -218,22 +218,6 @@ function dialogue(){ //look into making an array for dialogue lines to cut down 
     }
 }
 
-//makes the text box fade in and out when you press "e";
-/*function fadeInTextBox() {
-    //console.log('fadeIn function active')
-    var testDialogue;
-    if (TextBox.classList.contains('fadeIn')) {
-        console.log('fade out')
-        TextBox.classList.remove('fadeIn');
-    } 
-    else {
-        console.log('fade in')
-        testDialogue = "This is a test for passing data to the dialogue box.";
-        document.getElementById('dialogueText').innerHTML = testDialogue;
-        TextBox.classList.add('fadeIn');
-    };
-}*/
-
 //event listeners / controls
 
 window.addEventListener('keyup', function (e){
