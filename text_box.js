@@ -104,12 +104,13 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
                 //console.log("keys collected = ", + keysCollected);
                 document.getElementById('key-progress').innerHTML = keysCollected + " of 4";
             }
-            if(playerChoice === correctAnswer && currentRiddle === 5){ // place win state here.
+            if(playerChoice === correctAnswer && currentRiddle === 4){ // place win state here.
                 textStage = 4;
                 document.getElementById('dialogueText').innerHTML = "Correct. You have proven yourself worthy. You may depart my labyrinth.";
                 keysCollected = 0;
                //console.log("keys collected = ", + keysCollected);
                 currentRiddle = 0;
+                document.getElementById('game-over-popup').innerHTML = "YOU WIN."
             }  
             else if(playerChoice != correctAnswer){
                 textStage = 4;
@@ -126,7 +127,7 @@ function minotaurDialogue(){ //Upgraded riddle system; check notebook for altera
         textStage = 0;
 		currentRiddle += 1;
         //if answer was right, make minotaur disappear. (this isn't triggering for some reason)
-        if(playerChoice === correctAnswer && currentRiddle != 5){
+        if(playerChoice === correctAnswer && currentRiddle != 4){
 			console.log(interactIndex);
             minotaur.sprites.splice(0, 1);
 			minotaur.minotaurData.splice(interactIndex, 1);
